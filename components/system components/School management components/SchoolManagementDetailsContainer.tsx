@@ -4,9 +4,10 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { RiEdit2Fill } from "react-icons/ri";
 import PaymentsTabContainer from "./PaymentsTabContainer";
+import SchoolAnalytics from "./SchoolAnalytics";
 import ManageSchoolUsersTabContainer from "./ManageSchoolUsersTabContainer";
 const SchoolManagementDetailsContainer = () => {
-  const [activeTab, setActiveTab] = useState("payments");
+  const [activeTab, setActiveTab] = useState("analytics");
   return (
     <div className="w-full">
       <div className="flex justify-between">
@@ -24,6 +25,12 @@ const SchoolManagementDetailsContainer = () => {
         </div>
 
         <div className="flex items-center gap-2">
+          <Button
+            onClick={() => setActiveTab("analytics")}
+            className={`hover:bg-[#db5050] ${activeTab == "analytics" ? "bg-[#FF5B5B]" : "bg-gray-300"}`}
+          >
+            Analytics
+          </Button>
           <Button
             onClick={() => setActiveTab("payments")}
             className={`hover:bg-[#db5050] ${activeTab == "payments" ? "bg-[#FF5B5B]" : "bg-gray-300"}`}
@@ -43,6 +50,7 @@ const SchoolManagementDetailsContainer = () => {
       </div>
 
       <div>
+        {activeTab === "analytics" && <SchoolAnalytics />}
         {activeTab === "payments" && <PaymentsTabContainer />}
         {activeTab === "manage_users" && <ManageSchoolUsersTabContainer />}
       </div>
