@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { RiGamepadFill } from "react-icons/ri";
-
+import { RiDashboardFill } from "react-icons/ri";
 // Shadcn imports
 import {
   Drawer,
@@ -46,6 +46,20 @@ const MobileSideNavigation = () => {
               <DrawerTitle>PLEARN</DrawerTitle>
 
               <ul className="flex flex-col gap-4">
+                <li>
+                  <Link
+                    onClick={handleNavigate}
+                    className={`flex items-center gap-2 ${
+                      pathname === "/dashboard/admin_dashboard"
+                        ? "font-bold text-[#FF5B5B]"
+                        : ""
+                    }`}
+                    href="/dashboard/admin_dashboard"
+                  >
+                    <RiDashboardFill />
+                    Admin Dashboard
+                  </Link>
+                </li>
                 <li>
                   <Link
                     onClick={handleNavigate}
