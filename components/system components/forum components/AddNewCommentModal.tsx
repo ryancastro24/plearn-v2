@@ -19,7 +19,7 @@ const AddNewCommentModal = () => {
         <DialogTrigger className="w-15 h-15 md:w-18 md:h-18 flex items-center justify-center  cursor-pointer hover:bg-[#f84949]   bg-[#FF5B5B] text-white  rounded-full shadow shadow-black/20">
           <AiFillMessage className="md:text-5xl text-4xl" />
         </DialogTrigger>
-        <DialogContent className="p-3">
+        <DialogContent className="p-3 max-w-125">
           <DialogHeader>
             <DialogTitle className="text-left">
               Share it with others

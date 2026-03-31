@@ -4,7 +4,7 @@ import SchoolActivityLogs from "./SchoolActivityLogs";
 const ManageSchoolUsersTabContainer = () => {
   return (
     <div className="flex flex-col gap-4 mt-2">
-      <div className="flex justify-between items-center gap-5">
+      <div className="grid md:grid-cols-2 gap-5">
         <SchoolEmployeesTableData />
         <SchoolStudentTableData />
       </div>

@@ -8,7 +8,7 @@ const SchoolAnalytics = () => {
       <div>
         <LinechartSchoolDetails />
       </div>
-      <div className="flex items-center justify-between">
+      <div className="grid md:grid-cols-3  gap-6">
         <SchoolDetailsPieChart1 />
         <SchoolDetailsPieChart2 />
         <SchoolDetailsPieChart3 />

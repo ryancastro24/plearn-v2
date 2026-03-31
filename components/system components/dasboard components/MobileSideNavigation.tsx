@@ -14,7 +14,9 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 
+import { Button } from "@/components/ui/button";
 // icon imports
+import { FaSchool } from "react-icons/fa6";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { FaHouse, FaChildren } from "react-icons/fa6";
 import { IoStorefront, IoChatbubbles } from "react-icons/io5";
@@ -36,9 +38,9 @@ const MobileSideNavigation = () => {
 
         <Drawer open={open} onOpenChange={setOpen} direction="right">
           <DrawerTrigger asChild>
-            <button>
+            <Button>
               <HiMenuAlt3 className="text-2xl text-white" />
-            </button>
+            </Button>
           </DrawerTrigger>
 
           <DrawerContent>
@@ -58,6 +60,21 @@ const MobileSideNavigation = () => {
                   >
                     <RiDashboardFill />
                     Admin Dashboard
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    onClick={handleNavigate}
+                    className={`flex items-center gap-2 ${
+                      pathname.includes("/dashboard/school_management")
+                        ? "font-bold text-[#FF5B5B]"
+                        : ""
+                    }`}
+                    href="/dashboard/school_management"
+                  >
+                    <FaSchool />
+                    School Management
                   </Link>
                 </li>
                 <li>
@@ -132,6 +149,21 @@ const MobileSideNavigation = () => {
                   >
                     <RiGamepadFill />
                     Learning Hub
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    onClick={handleNavigate}
+                    className={`flex items-center gap-2 ${
+                      pathname.includes("/dashboard/admin_learninghub")
+                        ? "font-bold text-[#FF5B5B]"
+                        : ""
+                    }`}
+                    href="/dashboard/admin_learninghub"
+                  >
+                    <RiGamepadFill />
+                    Learning Hub Admin
                   </Link>
                 </li>
               </ul>

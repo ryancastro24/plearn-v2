@@ -28,7 +28,7 @@ const AddNewTaskModal = () => {
             Add new task
           </Button>
         </DialogTrigger>
-        <DialogContent className="p-3 md:p-6">
+        <DialogContent className="p-3 md:p-6 max-w-150  ">
           <DialogHeader>
             <DialogTitle>Add new task</DialogTitle>
           </DialogHeader>

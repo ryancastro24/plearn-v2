@@ -3,15 +3,27 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { HiMiniShoppingCart } from "react-icons/hi2";
+import DeleteItemInStoreModal from "./DeleteItemInStoreModal";
+import EditItemInStoreModal from "./EditItemInStoreModal";
 import React, { useRef } from "react";
 import { useFlyToCart } from "@/components/system components/store components/FlyToCartProvider";
+
+const userType: "admin" | "user" = "admin";
 
 const StoreItems = ({ item }: any) => {
   const realBtnRef = useRef<HTMLButtonElement | null>(null);
   const { flyFromElement } = useFlyToCart();
 
   return (
-    <div className="w-40 h-54 rounded p-2 shadow shadow-black/10 border border-black/10 flex flex-col justify-between">
+    <div className="group relative w-40 h-54 rounded p-2 shadow shadow-black/10 border border-black/10 flex flex-col justify-between overflow-hidden bg-white">
+      {/* Admin hover overlay */}
+      {userType === "admin" && (
+        <div className="absolute inset-0 z-20 flex items-center justify-center gap-3 bg-black/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+          <DeleteItemInStoreModal />
+          <EditItemInStoreModal />
+        </div>
+      )}
+
       <div className="w-full h-28 rounded flex items-center justify-center bg-gray-300">
         <Image
           src={item.itemImage || "/placeholder.png"}
@@ -37,8 +49,9 @@ const StoreItems = ({ item }: any) => {
             <button
               ref={realBtnRef}
               onClick={() => {
-                if (realBtnRef.current)
+                if (realBtnRef.current) {
                   flyFromElement(realBtnRef.current, item.itemImage);
+                }
               }}
             >
               <HiMiniShoppingCart />

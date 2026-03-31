@@ -10,7 +10,7 @@ import {
 
 const PaymentTabTableData = () => {
   return (
-    <div className="col-span-3 w-full shadow shadow-black/30 border border-black/10 rounded p-3 flex flex-col gap-5">
+    <div className="md:col-span-3 w-full shadow shadow-black/30 border border-black/10 rounded p-3 flex flex-col gap-5">
       <h1 className="text-sm">Payment History</h1>
       <Table>
         <TableCaption>School payment history tracker</TableCaption>

@@ -106,6 +106,19 @@ const DesktopSideNavigation = () => {
             <RiGamepadFill className="text-3xl" />
           </Link>
         </li>
+
+        <li>
+          <Link
+            className={`flex items-center cursor-pointer gap-2 ${
+              pathname.includes("/dashboard/admin_learninghub")
+                ? " text-[#FF5B5B]"
+                : "text-[#C4C4C4]"
+            }`}
+            href="/dashboard/admin_learninghub"
+          >
+            <RiGamepadFill className="text-3xl" />
+          </Link>
+        </li>
       </ul>
     </div>
   );

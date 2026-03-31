@@ -3,7 +3,7 @@ type Props = Promise<{ id: string }>;
 const SchoolManagementDetails = async ({ params }: { params: Props }) => {
   const { id } = await params;
   return (
-    <div className="p-5 w-full">
+    <div className="md:p-5 p-3 w-full">
       <SchoolManagementDetailsContainer />
     </div>
   );

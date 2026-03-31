@@ -19,10 +19,10 @@ import {
 import StoreItemsContainer from "@/components/system components/store components/StoreItemsContainer";
 import OpenCartContainer from "@/components/system components/store components/OpenCartContainer";
 import { Search } from "lucide-react";
-
+import AddNewStoreItem from "@/components/system components/store components/AddNewStoreItem";
 const Storepage = () => {
   return (
-    <div className="w-full p-2 flex flex-col gap-4 h-full">
+    <div className="w-full p-2 flex flex-col gap-4 h-full relative">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <InputGroup className="max-w-xs">
@@ -56,6 +56,10 @@ const Storepage = () => {
       <CarouselItemsContainer />
       <div>
         <StoreItemsContainer />
+      </div>
+
+      <div className="fixed bottom-5 right-5">
+        <AddNewStoreItem />
       </div>
     </div>
   );
