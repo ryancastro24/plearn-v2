@@ -3,51 +3,46 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-const items = [
-  {
-    id: 1,
-    name: "MARK TWAIN",
-    profileImage: "/dashboard assets/boy.jpg",
-    level: 24,
-    rank: "Apprentice",
-    clanRank: "1st division captain",
-  },
-  {
-    id: 2,
-    name: "LIZA TWAIN",
-    profileImage: "/dashboard assets/girl.avif",
-    level: 14,
-    rank: "Novice",
-    clanRank: "Member",
-  },
-];
+import { getRankByLevel } from "@/lib/rankLabels";
+type Kid = {
+  _id: string;
+  profileImage: string;
+  firstname: string;
+  lastname: string;
+  level: number;
+  rank: string;
+  clanRank: string;
+};
+type KidsProps = {
+  kids: Kid[]; // array of kid objects
+};
 
-const MobileDropDownOption = () => {
-  const [openId, setOpenId] = useState<number | null>(null);
+const MobileDropDownOption = ({ kids = [] }: KidsProps) => {
+  const [openId, setOpenId] = useState<string | null>(null);
 
-  const handleToggle = (id: number) => {
+  const handleToggle = (id: string) => {
     setOpenId((prev) => (prev === id ? null : id));
   };
 
   return (
     <div className="w-full space-y-3">
-      {items.map((item) => {
-        const isOpen = openId === item.id;
+      {kids.map((kid) => {
+        const isOpen = openId === kid._id;
 
         return (
           <div
-            key={item.id}
+            key={kid._id}
             className="border  bg-white shadow-sm overflow-hidden transition-all rounded"
           >
             {/* Card Header */}
             <button
-              onClick={() => handleToggle(item.id)}
+              onClick={() => handleToggle(kid._id)}
               className="w-full flex items-center justify-between p-2 text-left"
             >
               <div className="flex items-center gap-2">
                 <div className="rounded-full w-20 h-20 relative overflow-hidden">
                   <Image
-                    src={item.profileImage}
+                    src={kid.profileImage || "/dashboard assets/boy.jpg"}
                     alt="profile image"
                     fill
                     className="object-cover"
@@ -55,17 +50,21 @@ const MobileDropDownOption = () => {
                 </div>
 
                 <div className="flex flex-col gap justify-center">
-                  <h2>{item.name}</h2>
+                  <h2>
+                    {kid.firstname.toUpperCase()} {kid.lastname.toUpperCase()}
+                  </h2>
                   <span className="text-xs">
-                    <strong>Level {item.level}- </strong>
-                    {item.rank}
+                    <strong>Level {kid.level}- </strong>
+                    {getRankByLevel(kid.level)}
                   </span>
 
                   <div className="flex items-center gap-2">
                     {/* clan logo container */}
                     <div className="w-4 h-4 rounded bg-slate-500"></div>
 
-                    <span className="text-xs">{item.clanRank}</span>
+                    <span className="text-xs">
+                      {!!kid.clanRank ? kid.clanRank : "No Clan"}
+                    </span>
                   </div>
                 </div>
               </div>

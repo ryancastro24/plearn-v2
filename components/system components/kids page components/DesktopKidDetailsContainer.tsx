@@ -1,22 +1,32 @@
 import DesktopCardKidDetails from "./DesktopCardKidDetails";
-const DesktopKidDetailsContainer = () => {
+
+type Kid = {
+  _id: string;
+  profileImage: string;
+  firstname: string;
+  lastname: string;
+  level: number;
+  rank: string;
+  clanId: string;
+};
+type KidsProps = {
+  kids: Kid[]; // array of kid objects
+};
+
+const DesktopKidDetailsContainer = ({ kids = [] }: KidsProps) => {
+  console.log("kids data in desktop container", kids);
   return (
     <div className="w-full flex flex-col gap-5">
-      <DesktopCardKidDetails
-        profileImage="/dashboard assets/boy.jpg"
-        name="MARK TWAIN"
-        level={24}
-        rank="Apprentice"
-        clanRank="1st division captain"
-      />
-
-      <DesktopCardKidDetails
-        profileImage="/dashboard assets/girl.avif"
-        name="LIZA TWAIN"
-        level={14}
-        rank="Novice"
-        clanRank="Member"
-      />
+      {kids.map((kid) => (
+        <DesktopCardKidDetails
+          key={kid._id}
+          profileImage={kid.profileImage}
+          name={kid.firstname + " " + kid.lastname}
+          level={kid.level}
+          clanRank={kid.clanId}
+          kid_id={kid._id}
+        />
+      ))}
     </div>
   );
 };

@@ -5,16 +5,16 @@ type KidsDetailsProps = {
   profileImage: string;
   name: string;
   level: number;
-  rank: string;
   clanRank: string;
+  kid_id: string;
 };
-
+import { getRankByLevel } from "@/lib/rankLabels";
 const DesktopCardKidDetails = ({
   profileImage,
   name,
   level,
-  rank,
   clanRank,
+  kid_id,
 }: KidsDetailsProps) => {
   return (
     <div className="w-full p-4 rounded-lg shadow-md shadow-black/20 border border-black/10 flex items-center justify-between">
@@ -22,7 +22,7 @@ const DesktopCardKidDetails = ({
         <div className="flex items-center gap-5">
           <div className="rounded-full overflow-hidden relative w-32 h-32">
             <Image
-              src={profileImage}
+              src={profileImage || "/dashboard assets/boy.jpg"}
               alt="profileImage"
               fill
               className="object-cover"
@@ -30,17 +30,19 @@ const DesktopCardKidDetails = ({
           </div>
 
           <div className="flex flex-col gap justify-center">
-            <h2 className="text-lg">{name}</h2>
+            <h2 className="text-lg">{name.toUpperCase()}</h2>
             <span className="text-sm">
               <strong>Level {level}- </strong>
-              {rank}
+              {getRankByLevel(level)}
             </span>
 
             <div className="flex items-center gap-2">
               {/* clan logo container */}
               <div className="w-4 h-4 rounded bg-slate-500"></div>
 
-              <span className="text-sm">{clanRank}</span>
+              <span className="text-sm">
+                {!!clanRank ? clanRank : "No Clan"}
+              </span>
             </div>
 
             <div className="flex items-center gap-2 mt-2">
@@ -54,7 +56,7 @@ const DesktopCardKidDetails = ({
 
         <div>
           <div className="flex items-center gap-4 mt-2">
-            <Link href={"/dashboard/kids/kid_friends/1"}>
+            <Link href={`/dashboard/kids/kid_friends/${kid_id}`}>
               <Button className="w-12 h-12 bg-white hover:bg-white/50 border border-black/10 shadow-md shadow-black/30 rounded relative cursor-pointer overflow-hidden">
                 <Image
                   src="/kids page assets/friends_icon.png"
@@ -64,7 +66,7 @@ const DesktopCardKidDetails = ({
               </Button>
             </Link>
 
-            <Link href={"/dashboard/kids/kid_tasks/1"}>
+            <Link href={`/dashboard/kids/kid_tasks/${kid_id}`}>
               <Button className="w-12 h-12 bg-white hover:bg-white/50 border border-black/10 shadow-md shadow-black/30 rounded relative cursor-pointer overflow-hidden">
                 <Image
                   src="/kids page assets/tasks_icon.png"
@@ -74,7 +76,7 @@ const DesktopCardKidDetails = ({
               </Button>
             </Link>
 
-            <Link href={"/dashboard/kids/kid_inventory/1"}>
+            <Link href={`/dashboard/kids/kid_inventory/${kid_id}`}>
               <Button className="w-12 h-12 bg-white hover:bg-white/50 border border-black/10 shadow-md shadow-black/30 rounded relative cursor-pointer overflow-hidden">
                 <Image
                   src="/kids page assets/inventory_icon.png"

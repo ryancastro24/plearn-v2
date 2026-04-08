@@ -8,7 +8,7 @@ import {
   getAllProvinces,
 } from "@/lib/queryOptions";
 import { Spinner } from "@/components/ui/spinner";
-import { kidRegistration } from "@/backend/user";
+import { userRegisteration } from "@/backend/user";
 import {
   Dialog,
   DialogContent,
@@ -19,12 +19,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { getUserLoginData } from "@/lib/userQueryOptions";
-import { useQuery } from "@tanstack/react-query";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { HiPlusCircle } from "react-icons/hi";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   AlertDialog,
@@ -46,14 +43,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const AddNewKidsModal = () => {
+const UserRegistration = () => {
   const queryClient = useQueryClient();
-  const { data: userLoginData } = useQuery(getUserLoginData());
+
   const [openModal, setOpenModal] = useState(false);
   const [alertDialogOpen, setAlertDialogOpen] = useState(false);
   const [missingFields, setMissingFields] = useState<string[]>([]);
+  const [registeredUsername, setRegisteredUsername] = useState("");
 
-  const [newStudent, setNewStudent] = useState({
+  const [newUser, setNewUser] = useState({
     firstname: "",
     middlename: "",
     lastname: "",
@@ -65,8 +63,11 @@ const AddNewKidsModal = () => {
     barangay: "",
     purok: "",
     citizenship: "",
-    profileImage: "",
-    characteristics: [] as string[],
+    validId: "",
+    contactNumber: "",
+    email: "",
+    username: "",
+    password: "",
   });
   const [provinceCode, setProvinceCode] = useState("");
   const [cityCode, setCityCode] = useState("");
@@ -109,11 +110,12 @@ const AddNewKidsModal = () => {
     isError,
     error,
   } = useMutation({
-    mutationFn: kidRegistration,
-    onSuccess: () => {
-      queryClient.refetchQueries({ queryKey: ["userkids"], exact: true });
+    mutationFn: userRegisteration,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      setRegisteredUsername(data.username); // Store the registered username
       setOpenModal(false);
-      setNewStudent({
+      setNewUser({
         firstname: "",
         middlename: "",
         lastname: "",
@@ -125,8 +127,11 @@ const AddNewKidsModal = () => {
         barangay: "",
         purok: "",
         citizenship: "",
-        profileImage: "",
-        characteristics: [] as string[],
+        validId: "",
+        contactNumber: "",
+        email: "",
+        username: "",
+        password: "",
       });
       setAlertDialogOpen(true);
     },
@@ -139,30 +144,26 @@ const AddNewKidsModal = () => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     createUserMutation({
-      ...newStudent,
-      characteristics: selectedCharacteristics,
-      username: `${newStudent.firstname.toLowerCase()}.${newStudent.lastname.toLowerCase()}${Math.floor(100 + Math.random() * 900)}`,
-      password:
-        newStudent.birthdate.split("-").reverse().join("") +
-        "_" +
-        newStudent.firstname.toLowerCase(),
-      userType: "student",
-      parentId: userLoginData?._id || "",
+      ...newUser,
+      userType: "user",
     });
   };
 
   return (
     <>
       <Dialog open={openModal} onOpenChange={(open) => setOpenModal(open)}>
-        <DialogTrigger className="w-15 h-15 md:w-18 md:h-18 flex items-center justify-center cursor-pointer hover:bg-[#f84949] bg-[#FF5B5B] text-white rounded-full shadow shadow-black/20">
-          <HiPlusCircle className="md:text-5xl text-4xl" />
+        <DialogTrigger asChild>
+          <Button variant="outline" className="flex items-center gap-2">
+            Signup
+          </Button>
         </DialogTrigger>
 
         <DialogContent className="max-w-150">
           <DialogHeader>
-            <DialogTitle>Add your kid</DialogTitle>
+            <DialogTitle>Create your own account</DialogTitle>
             <DialogDescription>
-              Create an account for your kid for better learning and lifestyle
+              Guide and monitor your kids for better growth and development.
+              Create an account to get started.
             </DialogDescription>
           </DialogHeader>
 
@@ -197,13 +198,13 @@ const AddNewKidsModal = () => {
                     <Label>Firstname </Label>
                     <Input
                       onChange={(e) =>
-                        setNewStudent({
-                          ...newStudent,
+                        setNewUser({
+                          ...newUser,
                           firstname: e.target.value,
                         })
                       }
                       placeholder="Enter firstname"
-                      value={newStudent.firstname}
+                      value={newUser.firstname}
                     />
                   </div>
 
@@ -211,12 +212,12 @@ const AddNewKidsModal = () => {
                     <Label>Middlename</Label>
                     <Input
                       onChange={(e) =>
-                        setNewStudent({
-                          ...newStudent,
+                        setNewUser({
+                          ...newUser,
                           middlename: e.target.value,
                         })
                       }
-                      value={newStudent.middlename}
+                      value={newUser.middlename}
                       placeholder="Enter middlename"
                     />
                   </div>
@@ -227,12 +228,12 @@ const AddNewKidsModal = () => {
                     <Label>Lastname</Label>
                     <Input
                       onChange={(e) =>
-                        setNewStudent({
-                          ...newStudent,
+                        setNewUser({
+                          ...newUser,
                           lastname: e.target.value,
                         })
                       }
-                      value={newStudent.lastname}
+                      value={newUser.lastname}
                       placeholder="Enter lastname"
                     />
                   </div>
@@ -241,12 +242,12 @@ const AddNewKidsModal = () => {
                     <Label>Suffix </Label>
                     <Input
                       onChange={(e) =>
-                        setNewStudent({
-                          ...newStudent,
+                        setNewUser({
+                          ...newUser,
                           suffix: e.target.value,
                         })
                       }
-                      value={newStudent.suffix}
+                      value={newUser.suffix}
                       placeholder="Enter suffix"
                     />
                   </div>
@@ -257,8 +258,8 @@ const AddNewKidsModal = () => {
                     <Label>Gender </Label>
                     <Select
                       onValueChange={(value) =>
-                        setNewStudent({
-                          ...newStudent,
+                        setNewUser({
+                          ...newUser,
                           gender: value,
                         })
                       }
@@ -279,12 +280,12 @@ const AddNewKidsModal = () => {
                     <Label>birthdate</Label>
                     <Input
                       onChange={(e) =>
-                        setNewStudent({
-                          ...newStudent,
+                        setNewUser({
+                          ...newUser,
                           birthdate: e.target.value,
                         })
                       }
-                      value={newStudent.birthdate}
+                      value={newUser.birthdate}
                       type="date"
                     />
                   </div>
@@ -307,8 +308,8 @@ const AddNewKidsModal = () => {
                           (p: any) => p.code === value,
                         );
 
-                        setNewStudent({
-                          ...newStudent,
+                        setNewUser({
+                          ...newUser,
                           province: selectedProvince?.name || "",
                         });
                       }}
@@ -341,8 +342,8 @@ const AddNewKidsModal = () => {
                           (p: any) => p.code === value,
                         );
 
-                        setNewStudent({
-                          ...newStudent,
+                        setNewUser({
+                          ...newUser,
                           city: selectedMunicipality?.name || "",
                         });
                       }}
@@ -376,8 +377,8 @@ const AddNewKidsModal = () => {
                           (p: any) => p.code === value,
                         );
 
-                        setNewStudent({
-                          ...newStudent,
+                        setNewUser({
+                          ...newUser,
                           barangay: selectedBarangay?.name || "",
                         });
                       }}
@@ -404,12 +405,12 @@ const AddNewKidsModal = () => {
                     <Label>Purok/District/Zone</Label>
                     <Input
                       onChange={(e) =>
-                        setNewStudent({
-                          ...newStudent,
+                        setNewUser({
+                          ...newUser,
                           purok: e.target.value,
                         })
                       }
-                      value={newStudent.purok}
+                      value={newUser.purok}
                       placeholder="Enter Purok/District/Zone"
                     />
                   </div>
@@ -425,8 +426,8 @@ const AddNewKidsModal = () => {
                     <Label>Citizenship</Label>
                     <Select
                       onValueChange={(value) =>
-                        setNewStudent({
-                          ...newStudent,
+                        setNewUser({
+                          ...newUser,
                           citizenship: value,
                         })
                       }
@@ -447,12 +448,12 @@ const AddNewKidsModal = () => {
                     </Select>
                   </div>
                   <div className="flex flex-col gap-1">
-                    <Label>Pofile image </Label>
+                    <Label>Valid Id</Label>
                     <Input
                       onChange={(e) =>
-                        setNewStudent({
-                          ...newStudent,
-                          profileImage: e.target.value,
+                        setNewUser({
+                          ...newUser,
+                          validId: e.target.value,
                         })
                       }
                       type="file"
@@ -460,42 +461,72 @@ const AddNewKidsModal = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-1 col-span-2">
-                  <Label>Characteristics</Label>
+                <div className="grid grid-cols-2 gap-5">
+                  <div className="flex flex-col gap-1">
+                    <Label>Contact number</Label>
 
-                  <div className="flex flex-wrap gap-2 rounded-md border p-3">
-                    {characteristicsOptions.map((item) => {
-                      const isSelected = selectedCharacteristics.includes(item);
-
-                      return (
-                        <button
-                          type="button"
-                          key={item}
-                          onClick={() => toggleCharacteristic(item)}
-                          className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-                            isSelected
-                              ? "bg-[#FF5B5B] text-white border-[#FF5B5B]"
-                              : "bg-white text-black hover:bg-gray-100"
-                          }`}
-                        >
-                          {item}
-                        </button>
-                      );
-                    })}
+                    <Input
+                      placeholder="Enter contact number"
+                      onChange={(e) =>
+                        setNewUser({
+                          ...newUser,
+                          contactNumber: e.target.value,
+                        })
+                      }
+                      value={newUser.contactNumber}
+                      type="text"
+                    />
                   </div>
 
-                  {selectedCharacteristics.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mt-2">
-                      {selectedCharacteristics.map((item) => (
-                        <div
-                          key={item}
-                          className="rounded-full bg-[#FF5B5B]/15 text-[#FF5B5B] px-3 py-1 text-sm font-medium border border-[#FF5B5B]/30"
-                        >
-                          {item}
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                  <div className="flex flex-col gap-1">
+                    <Label>Email</Label>
+
+                    <Input
+                      placeholder="Enter email"
+                      onChange={(e) =>
+                        setNewUser({
+                          ...newUser,
+                          email: e.target.value,
+                        })
+                      }
+                      value={newUser.email}
+                      type="text"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-5">
+                  <div className="flex flex-col gap-1">
+                    <Label>Username</Label>
+
+                    <Input
+                      placeholder="Enter username"
+                      onChange={(e) =>
+                        setNewUser({
+                          ...newUser,
+                          username: e.target.value,
+                        })
+                      }
+                      value={newUser.username}
+                      type="text"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-1">
+                    <Label>Password</Label>
+
+                    <Input
+                      placeholder="Enter password"
+                      onChange={(e) =>
+                        setNewUser({
+                          ...newUser,
+                          password: e.target.value,
+                        })
+                      }
+                      value={newUser.password}
+                      type="text"
+                    />
+                  </div>
                 </div>
               </div>
             </TabsContent>
@@ -556,9 +587,15 @@ const AddNewKidsModal = () => {
                 )}
               </AlertDialogDescription>
             ) : (
-              <AlertDialogDescription>
-                Your account has been created successfully.
-              </AlertDialogDescription>
+              <>
+                <AlertDialogDescription>
+                  Your account has been created successfully.
+                </AlertDialogDescription>
+
+                <AlertDialogDescription>
+                  Your username is: {registeredUsername}
+                </AlertDialogDescription>
+              </>
             )}
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -570,4 +607,4 @@ const AddNewKidsModal = () => {
   );
 };
 
-export default AddNewKidsModal;
+export default UserRegistration;

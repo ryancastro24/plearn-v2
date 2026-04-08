@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { FlyToCartProvider } from "@/components/system components/store components/FlyToCartProvider";
+import TanstackQueryProvider from "@/lib/tanstackQueryProvider";
+import ToastProvider from "@/components/ToasterProvider";
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
@@ -22,7 +24,11 @@ export default function RootLayout({
       <body
         className={`${montserrat.variable}  ${montserrat.className}  antialiased`}
       >
-        <FlyToCartProvider>{children}</FlyToCartProvider>
+        <TanstackQueryProvider>
+          <FlyToCartProvider>{children}</FlyToCartProvider>
+        </TanstackQueryProvider>
+
+        <ToastProvider />
       </body>
     </html>
   );

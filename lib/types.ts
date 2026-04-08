@@ -1,0 +1,22 @@
+export type UserData = {
+  firstname: string;
+  middlename: string;
+  lastname: string;
+  suffix: string;
+  birthdate: string;
+  gender: string;
+  province: string;
+  city: string;
+  barangay: string;
+  purok: string;
+  citizenship: string;
+  profileImage: string;
+  username: string;
+  password: string;
+  characteristics: string[];
+  userType: string;
+  contactNumber: string;
+  email: string;
+  validId: string;
+  parentId?: string;
+};

@@ -13,23 +13,55 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-export function DatePicker() {
-  const [date, setDate] = React.useState<Date>();
+// Add props interface
+interface DatePickerProps {
+  value?: Date; // current value from parent
+  onChange?: (date: Date | null) => void; // callback to parent
+}
+
+export function DatePicker({ value, onChange }: DatePickerProps) {
+  // Use prop value if provided, otherwise internal state
+  const [internalDate, setInternalDate] = React.useState<Date | undefined>(
+    value,
+  );
+
+  // Update both internal state and call onChange
+  const handleSelect = (date: Date) => {
+    setInternalDate(date);
+    onChange?.(date ?? null);
+  };
+
+  // Keep internal state in sync if parent value changes
+  React.useEffect(() => {
+    setInternalDate(value);
+  }, [value]);
 
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          data-empty={!date}
+          data-empty={!internalDate}
           className="data-[empty=true]:text-muted-foreground w-full justify-start text-left font-normal"
         >
           <CalendarIcon />
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
+          {internalDate ? (
+            format(internalDate, "PPP")
+          ) : (
+            <span>Pick a date</span>
+          )}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-full p-0">
-        <Calendar mode="single" selected={date} onSelect={setDate} />
+        <Calendar
+          mode="single"
+          selected={internalDate}
+          onSelect={(date: Date | undefined) => {
+            setInternalDate(date);
+            onChange?.(date ?? null);
+          }}
+          required={false}
+        />
       </PopoverContent>
     </Popover>
   );
