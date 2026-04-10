@@ -1,6 +1,6 @@
 "use client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createNewTask } from "@/backend/tasks";
+import { updateTask } from "@/backend/tasks";
 import {
   Dialog,
   DialogContent,
@@ -11,7 +11,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -23,18 +22,13 @@ import {
 import { toast } from "react-toastify";
 import { DatePicker } from "./DatePicker";
 
-const AddNewTaskModal = ({ kidId }: { kidId: string }) => {
+const TaskUpdateModal = ({
+  setSelectedTaskToUpdate,
+  selectedTaskToUpdate,
+  openTaskUpdateModal,
+  setOpenTaskUpdateModal,
+}: any) => {
   const queryClient = useQueryClient();
-  const [newTask, setNewTask] = useState({
-    description: "",
-    category: "",
-    points: 0,
-    deadlineDate: "", // ISO string
-    deadlineTime: "",
-    remarks: "",
-  });
-
-  const [openDialog, setOpenDialog] = useState(false);
 
   // ✅ Points logic (clean + scalable)
   const pointsDeterminator = (category?: string) => {
@@ -47,46 +41,35 @@ const AddNewTaskModal = ({ kidId }: { kidId: string }) => {
     return map[category || ""] ?? 0;
   };
 
-  const { mutate: taskMutate, isPending } = useMutation({
-    mutationFn: createNewTask,
+  const { mutate: taskUpdateMutate, isPending } = useMutation({
+    mutationFn: updateTask,
     onSuccess() {
       toast.success("Task successfully created");
-      setOpenDialog(false);
-      setNewTask({
-        description: "",
-        category: "",
-        points: 0,
-        deadlineDate: "", // ISO string
-        deadlineTime: "",
-        remarks: "",
-      });
+      setOpenTaskUpdateModal(false);
       queryClient.invalidateQueries({ queryKey: ["kidtasks"] });
     },
     onError(error) {
       toast.error(error.message);
     },
   });
-  // ✅ Submit handler (example)
-  const handleSubmit = () => {
-    const payload = {
-      ...newTask,
-      deadlineDate: newTask.deadlineDate.split("T")[0],
-      kidId: kidId,
-    };
-    taskMutate(payload);
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+
+    taskUpdateMutate({
+      id: selectedTaskToUpdate.id, // or id
+      data: {
+        ...selectedTaskToUpdate,
+        deadlineDate: selectedTaskToUpdate.deadlineDate.split("T")[0],
+      },
+    });
   };
 
   return (
-    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-      <DialogTrigger asChild>
-        <Button className="bg-linear-to-r from-[#FF5B5B] to-[#F04886] h-12 rounded w-full text-white">
-          Add new task
-        </Button>
-      </DialogTrigger>
-
+    <Dialog open={openTaskUpdateModal} onOpenChange={setOpenTaskUpdateModal}>
       <DialogContent className="p-3 md:p-6 max-w-150">
         <DialogHeader>
-          <DialogTitle>Add new task</DialogTitle>
+          <DialogTitle>Update Task</DialogTitle>
         </DialogHeader>
 
         <div className="grid md:grid-cols-2 gap-2">
@@ -94,9 +77,12 @@ const AddNewTaskModal = ({ kidId }: { kidId: string }) => {
           <div className="flex flex-col gap-2">
             <Label>Description</Label>
             <Input
-              value={newTask.description}
+              value={selectedTaskToUpdate.description}
               onChange={(e) =>
-                setNewTask({ ...newTask, description: e.target.value })
+                setSelectedTaskToUpdate({
+                  ...selectedTaskToUpdate,
+                  description: e.target.value,
+                })
               }
               placeholder="Enter description"
             />
@@ -106,9 +92,10 @@ const AddNewTaskModal = ({ kidId }: { kidId: string }) => {
           <div className="flex flex-col gap-2">
             <Label>Category</Label>
             <Select
+              defaultValue={selectedTaskToUpdate.category}
               onValueChange={(value) =>
-                setNewTask({
-                  ...newTask,
+                setSelectedTaskToUpdate({
+                  ...selectedTaskToUpdate,
                   category: value,
                   points: pointsDeterminator(value), // ✅ auto update points
                 })
@@ -134,17 +121,17 @@ const AddNewTaskModal = ({ kidId }: { kidId: string }) => {
           {/* Points */}
           <div className="flex flex-col gap-2">
             <Label>Points</Label>
-            <Input value={newTask.points} readOnly type="number" />
+            <Input value={selectedTaskToUpdate.points} readOnly type="number" />
           </div>
 
           {/* Deadline Date */}
           <div className="flex flex-col gap-2">
             <Label>Deadline Date</Label>
             <DatePicker
-              value={newTask.deadlineDate}
+              value={selectedTaskToUpdate.deadlineDate}
               onChange={(date: string | null) =>
-                setNewTask({
-                  ...newTask,
+                setSelectedTaskToUpdate({
+                  ...selectedTaskToUpdate,
                   deadlineDate: date ?? "",
                 })
               }
@@ -155,9 +142,12 @@ const AddNewTaskModal = ({ kidId }: { kidId: string }) => {
           <div className="flex flex-col gap-2">
             <Label>Deadline Time</Label>
             <Input
-              value={newTask.deadlineTime}
+              value={selectedTaskToUpdate.deadlineTime}
               onChange={(e) =>
-                setNewTask({ ...newTask, deadlineTime: e.target.value })
+                setSelectedTaskToUpdate({
+                  ...selectedTaskToUpdate,
+                  deadlineTime: e.target.value,
+                })
               }
               type="time"
               step="1"
@@ -169,9 +159,12 @@ const AddNewTaskModal = ({ kidId }: { kidId: string }) => {
           <div className="flex flex-col gap-2">
             <Label>Remarks</Label>
             <Input
-              value={newTask.remarks}
+              value={selectedTaskToUpdate.remarks}
               onChange={(e) =>
-                setNewTask({ ...newTask, remarks: e.target.value })
+                setSelectedTaskToUpdate({
+                  ...selectedTaskToUpdate,
+                  remarks: e.target.value,
+                })
               }
               placeholder="Enter remarks"
               type="text"
@@ -180,11 +173,11 @@ const AddNewTaskModal = ({ kidId }: { kidId: string }) => {
 
           {/* Submit */}
           <Button
+            onClick={(e) => handleSubmit(e)}
             disabled={isPending}
-            onClick={handleSubmit}
             className="bg-linear-to-r from-[#FF5B5B] to-[#F04886] h-12 rounded w-full text-white mt-2 md:col-span-2"
           >
-            {isPending ? "Creating..." : "Create new task"}
+            {isPending ? "Updating..." : "Update task"}
           </Button>
         </div>
       </DialogContent>
@@ -192,4 +185,4 @@ const AddNewTaskModal = ({ kidId }: { kidId: string }) => {
   );
 };
 
-export default AddNewTaskModal;
+export default TaskUpdateModal;

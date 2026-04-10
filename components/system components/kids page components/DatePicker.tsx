@@ -4,7 +4,6 @@ import * as React from "react";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -13,27 +12,19 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-// Add props interface
 interface DatePickerProps {
-  value?: Date; // current value from parent
-  onChange?: (date: Date | null) => void; // callback to parent
+  value?: string; // 👈 now STRING instead of Date
+  onChange?: (date: string | null) => void;
 }
 
 export function DatePicker({ value, onChange }: DatePickerProps) {
-  // Use prop value if provided, otherwise internal state
+  // convert string → Date for UI only
   const [internalDate, setInternalDate] = React.useState<Date | undefined>(
-    value,
+    value ? new Date(value + "T00:00:00") : undefined,
   );
 
-  // Update both internal state and call onChange
-  const handleSelect = (date: Date) => {
-    setInternalDate(date);
-    onChange?.(date ?? null);
-  };
-
-  // Keep internal state in sync if parent value changes
   React.useEffect(() => {
-    setInternalDate(value);
+    setInternalDate(value ? new Date(value + "T00:00:00") : undefined);
   }, [value]);
 
   return (
@@ -52,15 +43,25 @@ export function DatePicker({ value, onChange }: DatePickerProps) {
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-full p-0">
+
+      <PopoverContent className="w-auto p-0">
         <Calendar
           mode="single"
           selected={internalDate}
-          onSelect={(date: Date | undefined) => {
+          onSelect={(date) => {
+            if (!date) {
+              setInternalDate(undefined);
+              onChange?.(null);
+              return;
+            }
+
             setInternalDate(date);
-            onChange?.(date ?? null);
+
+            // 🔥 IMPORTANT: convert to YYYY-MM-DD
+            const safeDate = format(date, "yyyy-MM-dd");
+
+            onChange?.(safeDate);
           }}
-          required={false}
         />
       </PopoverContent>
     </Popover>

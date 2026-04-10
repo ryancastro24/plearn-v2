@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import KidsTasksUpperContent from "@/components/system components/kids page components/KidsTasksUpperContent";
 import AddNewTaskModal from "@/components/system components/kids page components/AddNewTaskModal";
 import CurrentTaskTable from "@/components/system components/kids page components/CurrentTaskTable";
@@ -9,13 +8,12 @@ import { getKidsData } from "@/lib/userQueryOptions";
 import { useQueries } from "@tanstack/react-query";
 import { getKidsTasks } from "@/lib/tasksQueryOptions";
 import { getRankByLevel } from "@/lib/rankLabels";
-import { deleteSpecificTask } from "@/backend/tasks";
-import { toast } from "react-toastify";
+import { IoReturnUpBack } from "react-icons/io5";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 const KidTasksClientComponent = ({ id }: { id: string }) => {
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const router = useRouter();
   const [selectedTaskId, setSelectedTaskId] = useState(null);
-  const queryClient = useQueryClient();
-  // Run multiple queries
   const queries = useQueries({
     queries: [getKidsData(id), getKidsTasks(id)],
   });
@@ -34,24 +32,6 @@ const KidTasksClientComponent = ({ id }: { id: string }) => {
     return word.charAt(0).toUpperCase() + word.slice(1);
   }
 
-  const { mutate: deletTask, isPending: deletePending } = useMutation({
-    mutationFn: deleteSpecificTask,
-    onSuccess(data) {
-      toast.success("Task successfully deleted");
-      queryClient.invalidateQueries({ queryKey: ["kidtasks"] });
-    },
-    onError(error: any) {
-      toast.error(error.message);
-    },
-    onSettled() {
-      setOpenDeleteDialog(false);
-    },
-  });
-
-  const handleDeleteTask = (e: any, id: any) => {
-    e.preventDefault();
-    deletTask(id);
-  };
   if (isLoading) {
     return (
       <div className="flex justify-center items-center p-10">
@@ -72,17 +52,30 @@ const KidTasksClientComponent = ({ id }: { id: string }) => {
     );
   }
 
+  const currenTasks = tasksData.filter(
+    (task: any) => task.approvalStatus === "pending",
+  );
   return (
     <div className="flex flex-col gap-5 p-4 w-full">
       <div className="w-full grid grid-cols-1 md:grid-cols-5 gap-5">
-        <div className="flex flex-col gap-4 md:col-span-2 ">
-          <h2>
-            Manage{" "}
-            {capitalize(kidData?.firstname) +
-              " " +
-              capitalize(kidData?.lastname)}{" "}
-            Task
-          </h2>
+        <div className="flex flex-col gap-4 md:col-span-2   ">
+          <div className="flex items-center gap-4">
+            <Button
+              onClick={() => router.back()}
+              variant={"secondary"}
+              className="flex items-center gap-2"
+            >
+              <IoReturnUpBack />
+              Back
+            </Button>
+            <h2>
+              Manage{" "}
+              {capitalize(kidData?.firstname) +
+                " " +
+                capitalize(kidData?.lastname)}{" "}
+              Tasks
+            </h2>
+          </div>
 
           <div className="shadow-md shadow-black/10 border border-black/5 rounded p-2">
             <KidsTasksUpperContent
@@ -102,25 +95,19 @@ const KidTasksClientComponent = ({ id }: { id: string }) => {
         </div>
 
         <CurrentTaskTable
-          tasks={tasksData}
-          setOpenDeleteDialog={setOpenDeleteDialog}
-          openDeleteDialog={openDeleteDialog}
-          handleDeleteTask={handleDeleteTask}
-          deletePending={deletePending}
+          tasks={currenTasks}
           setSelectedTaskId={setSelectedTaskId}
           selectedTaskId={selectedTaskId}
+          kidname={kidData?.firstname}
         />
       </div>
 
       <div>
         <AllAvailableTaskTable
           tasks={tasksData}
-          setOpenDeleteDialog={setOpenDeleteDialog}
-          openDeleteDialog={openDeleteDialog}
-          handleDeleteTask={handleDeleteTask}
-          deletePending={deletePending}
           setSelectedTaskId={setSelectedTaskId}
           selectedTaskId={selectedTaskId}
+          kidname={kidData?.firstname}
         />
       </div>
     </div>

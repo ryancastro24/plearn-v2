@@ -7,14 +7,17 @@ type KidsDetailsProps = {
   level: number;
   clanRank: string;
   kid_id: string;
+  points: number;
 };
 import { getRankByLevel } from "@/lib/rankLabels";
+
 const DesktopCardKidDetails = ({
   profileImage,
   name,
   level,
   clanRank,
   kid_id,
+  points,
 }: KidsDetailsProps) => {
   return (
     <div className="w-full p-4 rounded-lg shadow-md shadow-black/20 border border-black/10 flex items-center justify-between">
@@ -85,6 +88,18 @@ const DesktopCardKidDetails = ({
                 />
               </Button>
             </Link>
+
+            <div className="w-50 h-10 rounded bg-gray-100 flex items-center gap-2">
+              <div className="h-10 w-10 bg-gray-200 rounded relative overflow-hidden border-2 border-dashed border-gray-300 p-2">
+                <Image
+                  src="/dashboard assets/game coin.png"
+                  alt="coin"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <h2 className="">{points.toLocaleString()} pts</h2>
+            </div>
           </div>
         </div>
       </div>

@@ -8,6 +8,7 @@ type Kid = {
   level: number;
   rank: string;
   clanId: string;
+  points: number;
 };
 type KidsProps = {
   kids: Kid[]; // array of kid objects
@@ -25,6 +26,7 @@ const DesktopKidDetailsContainer = ({ kids = [] }: KidsProps) => {
           level={kid.level}
           clanRank={kid.clanId}
           kid_id={kid._id}
+          points={kid.points}
         />
       ))}
     </div>
