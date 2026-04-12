@@ -15,7 +15,6 @@ type KidsProps = {
 };
 
 const DesktopKidDetailsContainer = ({ kids = [] }: KidsProps) => {
-  console.log("kids data in desktop container", kids);
   return (
     <div className="w-full flex flex-col gap-5">
       {kids.map((kid) => (

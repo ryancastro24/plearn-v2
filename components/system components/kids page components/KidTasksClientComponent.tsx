@@ -11,6 +11,11 @@ import { getRankByLevel } from "@/lib/rankLabels";
 import { IoReturnUpBack } from "react-icons/io5";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+
+export function capitalize(word?: string | null) {
+  if (!word) return "";
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}
 const KidTasksClientComponent = ({ id }: { id: string }) => {
   const router = useRouter();
   const [selectedTaskId, setSelectedTaskId] = useState(null);
@@ -26,11 +31,6 @@ const KidTasksClientComponent = ({ id }: { id: string }) => {
   // Extract data
   const kidData = queries[0].data;
   const tasksData = queries[1].data;
-
-  function capitalize(word?: string | null) {
-    if (!word) return "";
-    return word.charAt(0).toUpperCase() + word.slice(1);
-  }
 
   if (isLoading) {
     return (

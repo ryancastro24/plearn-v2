@@ -30,10 +30,10 @@ const KidDashboardProfileContainer = ({
           </span>
 
           <div className="flex items-center gap-2 mt-2">
-            <div className="w-5 h-5 rounded bg-gray-400"></div>
-            <div className="w-5 h-5 rounded bg-gray-400"></div>
-            <div className="w-5 h-5 rounded bg-gray-400"></div>
-            <div className="w-5 h-5 rounded bg-gray-400"></div>
+            <div className="w-6 h-6 rounded bg-gray-200 border-2 border-dashed border-gray-300"></div>
+            <div className="w-6 h-6 rounded bg-gray-200 border-2 border-dashed border-gray-300"></div>
+            <div className="w-6 h-6 rounded bg-gray-200 border-2 border-dashed border-gray-300"></div>
+            <div className="w-6 h-6 rounded bg-gray-200 border-2 border-dashed border-gray-300"></div>
           </div>
         </div>
       </div>

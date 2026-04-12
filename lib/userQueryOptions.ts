@@ -13,7 +13,6 @@ export const getUserKids = () => {
   return queryOptions({
     queryKey: ["userkids"],
     queryFn: getUserKidsData,
-    staleTime: Infinity,
   });
 };
 

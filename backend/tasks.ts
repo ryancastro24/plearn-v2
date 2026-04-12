@@ -106,3 +106,14 @@ export const markTaskAsFailed = async (id: string) => {
 
   return data;
 };
+
+// get all kids task
+export const getKidsUpdatedTasks = async () => {
+  const res = await fetch(`http://localhost:5000/api/tasks/allkids/data/kids`, {
+    credentials: "include", // if you are using cookies (JWT auth)
+  });
+
+  if (!res.ok) throw new Error("Failed to fetch kid tasks");
+
+  return res.json();
+};
