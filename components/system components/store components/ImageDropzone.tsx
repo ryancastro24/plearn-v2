@@ -3,7 +3,11 @@
 import { useRef, useState } from "react";
 import { Upload, ImageIcon } from "lucide-react";
 
-const ImageDropZone = () => {
+type ImageDropZoneProps = {
+  setFile: React.Dispatch<React.SetStateAction<File | null>>;
+};
+
+const ImageDropZone = ({ setFile }: ImageDropZoneProps) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -16,6 +20,10 @@ const ImageDropZone = () => {
       return;
     }
 
+    // ✅ send file to parent (IMPORTANT)
+    setFile(file);
+
+    // ✅ preview
     const imageUrl = URL.createObjectURL(file);
     setSelectedImage(imageUrl);
   };

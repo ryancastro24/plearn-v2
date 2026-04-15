@@ -1,10 +1,5 @@
 import { UserData } from "../lib/types";
 
-// export const getUserData = async () => {
-//   const res = await fetch("https://jsonplaceholder.typicode.com/users/1");
-//   const data = await res.json();
-//   return data;
-// };
 type KidRegistrationData = Omit<
   UserData,
   "email" | "contactNumber" | "profileImage" | "validId"
@@ -69,6 +64,7 @@ export const getUserData = async () => {
 
   return res.json();
 };
+
 // get user kids data after login using jwt token
 export const getUserKidsData = async () => {
   const res = await fetch("http://localhost:5000/api/users/userkids", {

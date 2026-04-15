@@ -2,6 +2,9 @@ import { Button } from "@base-ui/react";
 import { HiMiniShoppingCart } from "react-icons/hi2";
 import Image from "next/image";
 const MainPromoItemViewContainer = ({ items, current, timeLeft }: any) => {
+  const discountedPrice =
+    items[current].points -
+    items[current].points * (items[current].discount / 100);
   return (
     <div
       className={`h-full rounded-lg w-full md:w-[60%] ${items[current].backgroundColor} p-4`}
@@ -57,16 +60,20 @@ const MainPromoItemViewContainer = ({ items, current, timeLeft }: any) => {
             </div>
 
             <div className="flex flex-col gap-1">
-              <span className="text-white text-[10px] md:text-xs">
-                {items[current].promoTagline}
+              <span className="text-white text-[10px] md:text-lg">
+                Purchase now with {items[current].discount}% discount
               </span>
 
-              <span className="text-white font-bold text-xs md:text-md">
-                For only {items[current].itemPoints} points!
+              <span className="text-white text-xs md:text-md">
+                For only {discountedPrice.toLocaleString()}{" "}
+                <span className="line-through">
+                  ({items[current].points.toLocaleString()})
+                </span>{" "}
+                points!
               </span>
               <span className="text-white text-[7px] md:text-[10px]">
-                <strong>{items[current].itemName}</strong> -{" "}
-                {items[current].itemDescription}
+                <strong>{items[current].name}</strong> -{" "}
+                {items[current].description}
               </span>
             </div>
 
@@ -84,7 +91,7 @@ const MainPromoItemViewContainer = ({ items, current, timeLeft }: any) => {
         <div className="col-span-3 flex items-center justify-center h-full">
           <div className="w-34 h-34   [@media(min-width:400px)]:w-54  [@media(min-width:400px)]:h-54 rounded-full bg-red-500/10 flex items-center justify-center">
             <Image
-              src={items[current].itemImage}
+              src={items[current].image}
               alt="Item Image"
               width={100}
               height={100}

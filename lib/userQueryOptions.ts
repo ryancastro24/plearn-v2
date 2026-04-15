@@ -1,5 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
-import { getUserData, getUserKidsData, getKidData } from "@/backend/user";
+import { getUserKidsData, getKidData, getUserData } from "@/backend/user";
 
 export const getUserLoginData = () => {
   return queryOptions({

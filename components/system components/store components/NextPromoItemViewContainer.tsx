@@ -14,11 +14,11 @@ type TimeLeft = {
 type Item = {
   backgroundColor: string;
   tagline: string;
-  promoTagline: string;
-  itemPoints: number;
-  itemName: string;
-  itemDescription: string;
-  itemImage: string;
+  points: number;
+  name: string;
+  description: string;
+  image: string;
+  discount: number;
 };
 
 type Props = {
@@ -36,6 +36,8 @@ const NextPromoItemViewContainer = ({
 
   if (!nextItem) return null;
 
+  const discountedPrice =
+    nextItem.points - nextItem.points * (nextItem.discount / 100);
   return (
     <div
       className="relative hidden h-full rounded-lg border border-black/10 p-2 shadow shadow-black/10 md:block"
@@ -88,17 +90,20 @@ const NextPromoItemViewContainer = ({
               </div>
 
               <div className="flex flex-col gap-1">
-                <span className="text-[10px] text-white">
-                  {nextItem.promoTagline}
-                </span>
-
-                <span className="text-sm font-bold text-white">
-                  For only {nextItem.itemPoints} points!
+                <span className="text-sm text-white">
+                  Purchase now with a {nextItem.discount}% off
                 </span>
 
                 <span className="text-[10px] text-white">
-                  <strong>{nextItem.itemName}</strong> -{" "}
-                  {nextItem.itemDescription}
+                  For only {discountedPrice.toLocaleString()}{" "}
+                  <span className="line-through">
+                    ({nextItem.points.toLocaleString()})
+                  </span>{" "}
+                  points!
+                </span>
+
+                <span className="text-[10px] text-white">
+                  <strong>{nextItem.name}</strong> - {nextItem.description}
                 </span>
               </div>
 
@@ -112,8 +117,8 @@ const NextPromoItemViewContainer = ({
           <div className="col-span-3 flex h-full items-center justify-center">
             <div className="flex h-35 w-35 items-center justify-center rounded-full bg-red-500/20">
               <Image
-                src={nextItem.itemImage}
-                alt={nextItem.itemName}
+                src={nextItem.image}
+                alt={nextItem.name}
                 width={180}
                 height={180}
               />

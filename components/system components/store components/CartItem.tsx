@@ -14,21 +14,21 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { TbTrashFilled } from "react-icons/tb";
-const CartItem = () => {
+const CartItem = ({ item }: any) => {
   return (
     <div className="w-full p-2 shadow-md shadow-black/10 rounded-md border border-black/10 flex items-center gap-4">
       <div className="flex items-center justify-between w-full">
         <div className="flex items-center gap-2">
           <Image
-            src={"/store page assets/store image 2.png"}
+            src={item?.itemId?.image}
             alt="store item image"
             width={80}
             height={80}
           />
 
           <div>
-            <h3 className="font-bold ">Item Name</h3>
-            <p className="text-xs">Points: 1000pts</p>
+            <h3 className="font-bold ">{item?.itemId?.name}</h3>
+            <p className="text-xs">Points: {item?.itemId?.points}pts</p>
           </div>
         </div>
 

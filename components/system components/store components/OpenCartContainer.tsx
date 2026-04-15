@@ -1,5 +1,6 @@
-import { useFlyToCart } from "@/components/system components/store components/FlyToCartProvider";
+"use client";
 
+import { useFlyToCart } from "@/components/system components/store components/FlyToCartProvider";
 import {
   Drawer,
   DrawerClose,
@@ -13,8 +14,17 @@ import {
 import { Button } from "@/components/ui/button";
 import CartItemContainer from "./CartItemContainer";
 import { HiMiniShoppingCart } from "react-icons/hi2";
+import { useQuery } from "@tanstack/react-query";
+import { getUserCartItems } from "@/lib/cartItemQueryOptions";
+import { useUser } from "@/lib/userContext";
 const OpenCartContainer = () => {
   const { cartRef } = useFlyToCart();
+
+  const { user } = useUser();
+  const { data: userCartItemsData } = useQuery(getUserCartItems(user?._id));
+
+  const cartItems = userCartItemsData?.data;
+
   return (
     <>
       <Drawer>
@@ -40,7 +50,7 @@ const OpenCartContainer = () => {
             </DrawerHeader>
 
             <div className="w-full overflow-scroll h-[48vh]">
-              <CartItemContainer />
+              <CartItemContainer cartItems={cartItems} />
             </div>
 
             <DrawerFooter>

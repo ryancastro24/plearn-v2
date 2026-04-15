@@ -11,10 +11,41 @@ import {
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { HiTrash } from "react-icons/hi2";
-const DeleteItemInStoreModal = () => {
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteItem } from "@/backend/items";
+import { toast } from "react-toastify";
+import { useState } from "react";
+const DeleteItemInStoreModal = ({ item }: any) => {
+  const queryClient = useQueryClient();
+  const [openDialog, setOpenDialog] = useState(false);
+  const { mutate: deleteItemMutate, isPending } = useMutation({
+    mutationFn: ({ id }: any) => deleteItem(id),
+
+    onSuccess(data) {
+      queryClient.invalidateQueries({ queryKey: ["items"], exact: false });
+      queryClient.invalidateQueries({
+        queryKey: ["onsaleitems"],
+        exact: false,
+      });
+      toast.success(data?.message || "Item deleted successfully");
+    },
+
+    onError(error: any) {
+      toast.error(error?.message || "Something went wrong");
+    },
+    onSettled() {
+      setOpenDialog(false);
+    },
+  });
+  const handleDelete = (e: any) => {
+    e.preventDefault();
+
+    deleteItemMutate({ id: item._id });
+  };
+
   return (
     <>
-      <Dialog>
+      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogTrigger asChild>
           <Button
             size="icon"
@@ -27,27 +58,24 @@ const DeleteItemInStoreModal = () => {
           <DialogHeader>
             <DialogTitle>Are you absolutely sure?</DialogTitle>
             <DialogDescription className="text-xs">
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
+              This action cannot be undone. This will permanently delete the
+              item and remove the data from our servers.
             </DialogDescription>
           </DialogHeader>
 
           <div>
             <div className="flex items-center gap-2">
               <Image
-                src={"/store page assets/store image 4.png"}
+                src={item?.image}
                 alt="item image"
                 width={100}
                 height={100}
               />
 
               <div className="flex flex-col gap-2 pr-10">
-                <h3>MIni Dragon Pet (Blue)</h3>
-                <p className="text-xs">
-                  Tiny chibi dragon companion with smooth shiny scales and big
-                  sparkling eyes.
-                </p>
-                <h2 className="text-2xl">5600Pts</h2>
+                <h3>{item?.name}</h3>
+                <p className="text-xs">{item?.description}</p>
+                <h2 className="text-2xl">{item?.points.toLocaleString()}Pts</h2>
               </div>
             </div>
           </div>
@@ -56,7 +84,9 @@ const DeleteItemInStoreModal = () => {
             <DialogClose asChild>
               <Button variant={"secondary"}>Cancel</Button>
             </DialogClose>
-            <Button variant={"destructive"}>Delete item</Button>
+            <Button onClick={handleDelete} variant={"destructive"}>
+              {isPending ? "Deleting..." : "Delete item"}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
