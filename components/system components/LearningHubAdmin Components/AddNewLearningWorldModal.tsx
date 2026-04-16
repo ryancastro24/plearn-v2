@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import Image from "next/image";
+import { worlds } from "@/lib/worldsArray";
 import {
   Select,
   SelectContent,
@@ -22,8 +23,31 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { addNewWorld } from "@/backend/learningworlds";
+
 const AddNewLearningWorldModal = () => {
   const [selectedWorld, setSelectedWorld] = useState("");
+  const queryClient = useQueryClient();
+  const [newWorld, setNewWorld] = useState({
+    title: "",
+    subject: "",
+    description: "",
+    worldImage: "",
+    world: "",
+  });
+
+  const { mutate: addNewWorldMutate, isPending } = useMutation({
+    mutationFn: addNewWorld,
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ["learningworlds"] });
+    },
+  });
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    addNewWorldMutate(newWorld);
+  };
 
   return (
     <div>
@@ -44,12 +68,22 @@ const AddNewLearningWorldModal = () => {
             <div className="w-full grid grid-cols-2 gap-3">
               <div className="flex flex-col gap-1">
                 <Label>Title</Label>
-                <Input placeholder="Enter world title" />
+                <Input
+                  value={newWorld.title}
+                  onChange={(e) =>
+                    setNewWorld({ ...newWorld, title: e.target.value })
+                  }
+                  placeholder="Enter world title"
+                />
               </div>
 
               <div className="flex flex-col gap-1">
                 <Label>Subject</Label>
-                <Select>
+                <Select
+                  onValueChange={(value) =>
+                    setNewWorld({ ...newWorld, subject: value })
+                  }
+                >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select subject" />
                   </SelectTrigger>
@@ -71,89 +105,43 @@ const AddNewLearningWorldModal = () => {
 
             <div className="flex flex-col gap-1">
               <Label>Description</Label>
-              <Textarea placeholder="Enter description" />
+              <Textarea
+                value={newWorld.description}
+                onChange={(e) =>
+                  setNewWorld({ ...newWorld, description: e.target.value })
+                }
+                placeholder="Enter description"
+              />
             </div>
 
             <div className="flex flex-col gap-4">
               <Label>Available worlds</Label>
-              <div className="flex gap-3">
-                <div
-                  onClick={() => setSelectedWorld("lava world")}
-                  className={`w-15 h-15 relative overflow-hidden rounded ${selectedWorld == "lava world" ? "border-2 shadow shadow-black/30 border-[#ff5b5b] scale-125" : ""}`}
-                >
-                  <Image
-                    src={"/learninghub page assets/world1.png"}
-                    alt="sample world"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div
-                  onClick={() => setSelectedWorld("water world")}
-                  className={`w-15 h-15 relative overflow-hidden rounded ${selectedWorld == "water world" ? "border-2 shadow shadow-black/30 border-[#ff5b5b] scale-125" : ""}`}
-                >
-                  <Image
-                    src={"/learninghub page assets/world2.png"}
-                    alt="sample world"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div
-                  onClick={() => setSelectedWorld("space world")}
-                  className={`w-15 h-15 relative overflow-hidden rounded ${selectedWorld == "space world" ? "border-2 shadow shadow-black/30 border-[#ff5b5b] scale-125" : ""}`}
-                >
-                  <Image
-                    src={"/learninghub page assets/world3.png"}
-                    alt="sample world"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div
-                  onClick={() => setSelectedWorld("city world")}
-                  className={`w-15 h-15 relative overflow-hidden rounded ${selectedWorld == "city world" ? "border-2 shadow shadow-black/30 border-[#ff5b5b] scale-125" : ""}`}
-                >
-                  <Image
-                    src={"/learninghub page assets/world4.png"}
-                    alt="sample world"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div
-                  onClick={() => setSelectedWorld("desert world")}
-                  className={`w-15 h-15 relative overflow-hidden rounded ${selectedWorld == "desert world" ? "border-2 shadow shadow-black/30 border-[#ff5b5b] scale-125" : ""}`}
-                >
-                  <Image
-                    src={"/learninghub page assets/world5.png"}
-                    alt="sample world"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div
-                  onClick={() => setSelectedWorld("ice world")}
-                  className={`w-15 h-15 relative overflow-hidden rounded ${selectedWorld == "ice world" ? "border-2 shadow shadow-black/30 border-[#ff5b5b] scale-125" : ""}`}
-                >
-                  <Image
-                    src={"/learninghub page assets/world6.png"}
-                    alt="sample world"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div
-                  onClick={() => setSelectedWorld("forest world")}
-                  className={`w-15 h-15 relative overflow-hidden rounded ${selectedWorld == "forest world" ? "border-2 shadow shadow-black/30 border-[#ff5b5b] scale-125" : ""}`}
-                >
-                  <Image
-                    src={"/learninghub page assets/world7.png"}
-                    alt="sample world"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
+              <div className="flex gap-3 flex-wrap">
+                {worlds.map((world) => (
+                  <div
+                    key={world.name}
+                    onClick={() => {
+                      setSelectedWorld(world.name);
+                      setNewWorld({
+                        ...newWorld,
+                        world: world.name,
+                        worldImage: world.image,
+                      });
+                    }}
+                    className={`w-15 h-15 relative overflow-hidden rounded cursor-pointer transition ${
+                      selectedWorld === world.name
+                        ? "border-2 shadow shadow-black/30 border-[#ff5b5b] scale-125"
+                        : ""
+                    }`}
+                  >
+                    <Image
+                      src={world.image}
+                      alt={world.name}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                ))}
               </div>
 
               <div>
@@ -166,7 +154,9 @@ const AddNewLearningWorldModal = () => {
             <DialogClose asChild>
               <Button variant={"secondary"}>Close</Button>
             </DialogClose>
-            <Button className="bg-[#ff5b5b] text-white">Create world</Button>
+            <Button onClick={handleSubmit} className="bg-[#ff5b5b] text-white">
+              {isPending ? "Creating..." : "Create world"}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

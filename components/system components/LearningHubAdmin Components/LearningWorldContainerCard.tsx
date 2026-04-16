@@ -8,12 +8,14 @@ type LearningWorldProps = {
   description: string | null;
   bgImage: string;
   worldStatusFinished: boolean;
+  id: string;
 };
 const LearningWorldContainerCard = ({
   title,
   description,
   bgImage,
   worldStatusFinished,
+  id,
 }: LearningWorldProps) => {
   return (
     <div className="group relative  md:w-85 md:h-85 rounded-lg bg-gray-300 overflow-hidden cursor-pointer">
@@ -30,9 +32,7 @@ const LearningWorldContainerCard = ({
           <p className="text-xs text-justify">{description}</p>
 
           <div className="absolute bottom-2">
-            <Link
-              href={`/dashboard/admin_learninghub/${bgImage.split("/")[2]}`}
-            >
+            <Link href={`/dashboard/admin_learninghub/${id}`}>
               <Button
                 className={`text-white flex items-center gap-2 ${worldStatusFinished ? "bg-[#0087f6] hover:bg-[#0577d4]" : "bg-[#FF5B5B] hover:bg-[#df4c4c]"}`}
               >
