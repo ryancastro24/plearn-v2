@@ -7,6 +7,7 @@ import LearningHubRewards from "@/components/system components/LearningHubAdmin 
 import { useQuery } from "@tanstack/react-query";
 import { getLearningWorldById } from "@/lib/learningworldsQueryOptions";
 import { getLearningWorldTopicsData } from "@/lib/learningworldTopicsQueryOptions";
+import TopicCreationModal from "./TopicCreationModal";
 const LearningHubDetailsClientComponent = ({ id }: any) => {
   const { data: learningworldData } = useQuery(getLearningWorldById(id));
 
@@ -60,13 +61,7 @@ const LearningHubDetailsClientComponent = ({ id }: any) => {
             </div>
 
             <div>
-              <Link
-                href={`/dashboard/admin_learninghub/${learningworld?._id}/topic_creation`}
-              >
-                <Button className="text-white bg-[#ff5b5b] mt-8">
-                  Create new topic
-                </Button>
-              </Link>
+              <TopicCreationModal id={learningworld?._id} />
             </div>
           </div>
 

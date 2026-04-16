@@ -11,7 +11,7 @@ export const getLearningWorldTopicsData = (id: string) => {
   });
 };
 
-export const getLearningWorldTopicDetails = (id: string) => {
+export const getLearningWorldTopicData = (id: string) => {
   return queryOptions({
     queryKey: ["learningworldstopicdetails", id],
     queryFn: () => getLearningworldTopicsDetailsById(id),
