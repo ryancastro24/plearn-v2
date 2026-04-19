@@ -16,6 +16,8 @@ const LearningHubDetailsClientComponent = ({ id }: any) => {
   );
   const learningworld = learningworldData?.data;
   const topics = learnginworldtopics?.data;
+
+  console.log(topics);
   return (
     <div className="w-full">
       <div className="w-full flex items-center justify-center  h-50 relative overflow-hidden">
@@ -43,11 +45,11 @@ const LearningHubDetailsClientComponent = ({ id }: any) => {
           <strong>About the subject:</strong> {learningworld?.description}
         </p>
 
-        <div className="grid grid-cols-5 gap-5 w-full px-5 ">
-          <div className="flex flex-col gap-4 w-full col-span-3">
+        <div className="grid grid-cols-5 gap-5 w-full px-5  h-auto min-h-fit items-start">
+          <div className="flex flex-col gap-2 w-full col-span-3">
             <h2>Topics Available</h2>
 
-            <div className="w-fit flex flex-col gap-5 ">
+            <div className="w-full flex flex-col gap-5 ">
               {topics?.map((topic: any, index: number) => (
                 <TopicLinksContainer
                   key={topic._id}
@@ -56,6 +58,7 @@ const LearningHubDetailsClientComponent = ({ id }: any) => {
                   id={id}
                   topicid={topic._id}
                   index={index}
+                  countslide={topic.countslide}
                 />
               ))}
             </div>
@@ -65,7 +68,7 @@ const LearningHubDetailsClientComponent = ({ id }: any) => {
             </div>
           </div>
 
-          <LearningHubRewards />
+          <LearningHubRewards topics={topics} />
         </div>
       </div>
     </div>

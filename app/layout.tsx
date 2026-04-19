@@ -4,6 +4,7 @@ import "./globals.css";
 import { FlyToCartProvider } from "@/components/system components/store components/FlyToCartProvider";
 import TanstackQueryProvider from "@/lib/tanstackQueryProvider";
 import ToastProvider from "@/components/ToasterProvider";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { UserProvider } from "@/lib/userContext";
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -27,7 +28,9 @@ export default function RootLayout({
       >
         <TanstackQueryProvider>
           <FlyToCartProvider>
-            <UserProvider>{children} </UserProvider>
+            <TooltipProvider>
+              <UserProvider>{children} </UserProvider>
+            </TooltipProvider>
           </FlyToCartProvider>
         </TanstackQueryProvider>
 

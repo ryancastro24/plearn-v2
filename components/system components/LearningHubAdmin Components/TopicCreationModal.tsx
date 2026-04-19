@@ -13,6 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { FiFolderPlus } from "react-icons/fi";
 const TopicCreationModal = ({ id }: any) => {
@@ -26,12 +27,13 @@ const TopicCreationModal = ({ id }: any) => {
   const { mutate: addNewTopicMutate, isPending } = useMutation({
     mutationFn: addNewLearningWorldTopic,
     onSuccess(data: any) {
+      toast.success("Topic successfully created");
       router.push(
         `/dashboard/admin_learninghub/${id}/topic_creation/${data?.data._id}`,
       );
     },
     onError(error) {
-      alert(error?.message);
+      toast.error(error.message);
     },
   });
 
@@ -47,7 +49,7 @@ const TopicCreationModal = ({ id }: any) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="flex items-center gap-2 text-white bg-linear-to-r from-[#FF5B5B] to-[#F04886]">
+        <Button className="flex items-center gap-2 mt-4 text-white bg-linear-to-r from-[#FF5B5B] to-[#F04886]">
           <FiFolderPlus />
           Add new topic
         </Button>

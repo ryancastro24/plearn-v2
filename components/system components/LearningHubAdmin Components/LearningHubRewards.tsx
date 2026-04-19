@@ -19,17 +19,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useState } from "react";
+const LearningHubRewards = ({ topics }: any) => {
+  console.log("topics", topics);
 
-const LearningHubRewards = () => {
+  const [selectedTopic, setSelectedTopic] = useState<any>(null);
   return (
     <div className="w-full relative p-4 col-span-2 shadow shadow-black/30 border border-black/10 rounded-lg">
       <h2 className="text-sm">Rewards available</h2>
 
-      <div></div>
-
       <Dialog>
         <DialogTrigger asChild>
-          <Button className="bg-linear-to-r from-[#685AFF] to-[#008CFF] text-white hover:bg-[#685AFF] absolute bottom-4 ">
+          <Button className="mt-5 bg-linear-to-r from-[#685AFF] to-[#008CFF] text-white hover:bg-[#685AFF] ">
             Add new reward
           </Button>
         </DialogTrigger>
@@ -45,18 +46,26 @@ const LearningHubRewards = () => {
             <div className="grid grid-cols-2 gap-3 w-full">
               <div className="flex flex-col gap-1 w-full">
                 <Label>Level</Label>
-                <Select>
+                <Select
+                  onValueChange={(value) => {
+                    const topic = topics?.find((t: any) => t._id === value);
+                    setSelectedTopic(topic);
+                  }}
+                >
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select level" />
+                    <SelectValue placeholder="Select level">
+                      {selectedTopic
+                        ? `Level ${topics.findIndex((t: any) => t._id === selectedTopic._id) + 1} - ${selectedTopic.title}`
+                        : "Select level"}
+                    </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectItem value="1">Level 1</SelectItem>
-                      <SelectItem value="2">Level 2</SelectItem>
-                      <SelectItem value="3">Level 3</SelectItem>
-                      <SelectItem value="4">Level 4</SelectItem>
-                      <SelectItem value="5">Level 5</SelectItem>
-                      <SelectItem value="6">Level 6</SelectItem>
+                      {topics?.map((topic: any, index: number) => (
+                        <SelectItem key={topic._id} value={topic._id}>
+                          Level {index + 1} - {topic.title}
+                        </SelectItem>
+                      ))}
                     </SelectGroup>
                   </SelectContent>
                 </Select>

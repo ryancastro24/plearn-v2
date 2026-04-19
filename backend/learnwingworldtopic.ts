@@ -64,3 +64,37 @@ export const getLearningworldTopics = async (id: string) => {
 
   return res.json();
 };
+
+// update the learning world topic
+export async function updateLearningWorldTopic(
+  LearningWorldTopicData: LearningWorldTopicDataProp,
+  id: string,
+) {
+  const res = await fetch(
+    `http://localhost:5000/api/learningworldstopics/${id}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify(LearningWorldTopicData),
+    },
+  );
+
+  if (!res.ok) throw new Error("Failed to create item");
+  return res.json();
+}
+
+// update the learning world topic
+export async function deleteLearningWorldTopic(id: string) {
+  const res = await fetch(
+    `http://localhost:5000/api/learningworldstopics/${id}`,
+    {
+      method: "DELETE",
+    },
+  );
+
+  if (!res.ok) throw new Error("Failed to delete item");
+  return res.json();
+}

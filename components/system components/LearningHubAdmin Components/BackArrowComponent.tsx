@@ -14,7 +14,7 @@ const BackArrowComponent = () => {
       onClick={() => router.back()}
     >
       <TbArrowBackUp />
-      <h3>Cancel</h3>
+      <h3>Back</h3>
     </Button>
   );
 };

@@ -25,7 +25,7 @@ import {
 import { LuFilePlus2 } from "react-icons/lu";
 import { createSlide } from "@/backend/learningworldtopicslide";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
+import { toast } from "react-toastify";
 const AddNewTopicSlide = ({ topicid }: any) => {
   const queryClient = useQueryClient();
 
@@ -39,7 +39,7 @@ const AddNewTopicSlide = ({ topicid }: any) => {
     option3: "",
     spelling_word: "",
     spelling_mode: "",
-    duration: "",
+    slideDuration: "",
   };
 
   const [activeTab, setActiveTab] = useState("explanation");
@@ -66,7 +66,7 @@ const AddNewTopicSlide = ({ topicid }: any) => {
     mutationFn: createSlide,
 
     onSuccess: () => {
-      alert("Slide created!");
+      toast.success("Slide succesfully created");
 
       queryClient.invalidateQueries({ queryKey: ["worldtopicslides"] });
 
@@ -75,7 +75,7 @@ const AddNewTopicSlide = ({ topicid }: any) => {
     },
 
     onError: (error: any) => {
-      alert(error.message);
+      toast.error(error.message);
     },
   });
 
@@ -83,7 +83,7 @@ const AddNewTopicSlide = ({ topicid }: any) => {
   const handleSubmit = () => {
     let payload: any = {
       category: newSlide.category,
-      duration: newSlide.duration,
+      slideDuration: newSlide.slideDuration,
       topicId: topicid,
     };
 
@@ -113,8 +113,8 @@ const AddNewTopicSlide = ({ topicid }: any) => {
     if (activeTab === "spelling") {
       payload = {
         ...payload,
-        word: newSlide.spelling_word,
-        mode: newSlide.spelling_mode,
+        spelling_word: newSlide.spelling_word,
+        spelling_mode: newSlide.spelling_mode,
       };
     }
 
@@ -291,8 +291,10 @@ const AddNewTopicSlide = ({ topicid }: any) => {
                   <Input
                     type="number"
                     className="w-20"
-                    value={newSlide.duration}
-                    onChange={(e) => handleChange("duration", e.target.value)}
+                    value={newSlide.slideDuration}
+                    onChange={(e) =>
+                      handleChange("slideDuration", e.target.value)
+                    }
                   />
                   Minutes
                 </div>
