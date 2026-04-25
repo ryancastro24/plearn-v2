@@ -25,7 +25,7 @@ const TopicLinksContainer = ({
   countslide,
 }: TopicLinksProps) => {
   return (
-    <Link href={`/dashboard/admin_learninghub/${id}/topic_creation/${topicid}`}>
+    <Link href={`/dashboard/admin/learninghub/${id}/topic_creation/${topicid}`}>
       <div className="group h-auto min-h-fit relative flex items-center gap-2 hover:text-[#ff5b5b] border border-black/10 shadow shadow-black/15 p-3 rounded-lg">
         <div className="bg-gray-300 w-8 h-8 rounded-full flex items-center justify-center group-hover:bg-[#ff5b5b] transition-colors">
           <h2 className=" group-hover:text-white">{index + 1}</h2>

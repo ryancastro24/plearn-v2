@@ -29,7 +29,7 @@ const TopicCreationModal = ({ id }: any) => {
     onSuccess(data: any) {
       toast.success("Topic successfully created");
       router.push(
-        `/dashboard/admin_learninghub/${id}/topic_creation/${data?.data._id}`,
+        `/admin_dashboard/  learninghub/${id}/topic_creation/${data?.data._id}`,
       );
     },
     onError(error) {

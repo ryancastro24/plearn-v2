@@ -19,4 +19,5 @@ export type UserData = {
   email: string;
   validId: string;
   parentId?: string;
+  schoolId?: string;
 };

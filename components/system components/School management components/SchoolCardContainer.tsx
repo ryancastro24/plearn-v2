@@ -4,20 +4,22 @@ type SchoolContainerProps = {
   schoolLogo: string;
   schoolname: string;
   schoolid: string;
+  id: string;
 };
 
 const SchoolCardContainer = ({
   schoolLogo,
   schoolname,
   schoolid,
+  id,
 }: SchoolContainerProps) => {
   return (
-    <Link href={"/dashboard/school_management/1"}>
-      <div className="flex items-center gap-3 p-2 rounded shadow shadow-black/30 border border-black/10">
-        <Image src={schoolLogo} alt="school logo" width={70} height={70} />
-        <div className="flex flex-col">
-          <h2 className="text-lg font-bold">{schoolname}</h2>
-          <h3 className="text-sm">{schoolid}</h3>
+    <Link href={`/dashboard/admin/school/${id}`}>
+      <div className="  flex flex-col items-center hover:shadow-lg gap-3 p-2 rounded shadow shadow-black/30 border border-black/10">
+        <Image src={schoolLogo} alt="school logo" width={200} height={200} />
+        <div className="flex flex-col min-w-0">
+          <h2 className=" text-center text-sm">{schoolname}</h2>
+          <h3 className="text-center">{schoolid}</h3>
         </div>
       </div>
     </Link>

@@ -59,7 +59,7 @@ const DesktopCardKidDetails = ({
 
         <div>
           <div className="flex items-center gap-4 mt-2">
-            <Link href={`/dashboard/kids/kid_friends/${kid_id}`}>
+            <Link href={`/dashboard/parent/kids/kid_friends/${kid_id}`}>
               <Button className="w-12 h-12 bg-white hover:bg-white/50 border border-black/10 shadow-md shadow-black/30 rounded relative cursor-pointer overflow-hidden">
                 <Image
                   src="/kids page assets/friends_icon.png"
@@ -69,7 +69,7 @@ const DesktopCardKidDetails = ({
               </Button>
             </Link>
 
-            <Link href={`/dashboard/kids/kid_tasks/${kid_id}`}>
+            <Link href={`/dashboard/parent/kids/kid_tasks/${kid_id}`}>
               <Button className="w-12 h-12 bg-white hover:bg-white/50 border border-black/10 shadow-md shadow-black/30 rounded relative cursor-pointer overflow-hidden">
                 <Image
                   src="/kids page assets/tasks_icon.png"
@@ -79,7 +79,7 @@ const DesktopCardKidDetails = ({
               </Button>
             </Link>
 
-            <Link href={`/dashboard/kids/kid_inventory/${kid_id}`}>
+            <Link href={`/dashboard/parent/kids/kid_inventory/${kid_id}`}>
               <Button className="w-12 h-12 bg-white hover:bg-white/50 border border-black/10 shadow-md shadow-black/30 rounded relative cursor-pointer overflow-hidden">
                 <Image
                   src="/kids page assets/inventory_icon.png"

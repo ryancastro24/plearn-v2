@@ -1,8 +1,6 @@
 "use client";
 import Image from "next/image";
 import TopicLinksContainer from "@/components/system components/LearningHubAdmin Components/TopicLinksContainer";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import LearningHubRewards from "@/components/system components/LearningHubAdmin Components/LearningHubRewards";
 import { useQuery } from "@tanstack/react-query";
 import { getLearningWorldById } from "@/lib/learningworldsQueryOptions";
@@ -68,7 +66,7 @@ const LearningHubDetailsClientComponent = ({ id }: any) => {
             </div>
           </div>
 
-          <LearningHubRewards topics={topics} />
+          <LearningHubRewards topics={topics} id={id} />
         </div>
       </div>
     </div>

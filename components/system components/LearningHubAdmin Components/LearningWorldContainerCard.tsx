@@ -32,7 +32,7 @@ const LearningWorldContainerCard = ({
           <p className="text-xs text-justify">{description}</p>
 
           <div className="absolute bottom-2">
-            <Link href={`/dashboard/admin_learninghub/${id}`}>
+            <Link href={`/dashboard/admin/learninghub/${id}`}>
               <Button
                 className={`text-white flex items-center gap-2 ${worldStatusFinished ? "bg-[#0087f6] hover:bg-[#0577d4]" : "bg-[#FF5B5B] hover:bg-[#df4c4c]"}`}
               >

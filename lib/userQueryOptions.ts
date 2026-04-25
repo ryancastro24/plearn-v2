@@ -1,5 +1,10 @@
 import { queryOptions } from "@tanstack/react-query";
-import { getUserKidsData, getKidData, getUserData } from "@/backend/user";
+import {
+  getUserKidsData,
+  getKidData,
+  getUserData,
+  getSchoolAdminEmployees,
+} from "@/backend/user";
 
 export const getUserLoginData = () => {
   return queryOptions({
@@ -20,6 +25,14 @@ export const getKidsData = (id: string) => {
   return queryOptions({
     queryKey: ["kiddata", id],
     queryFn: () => getKidData(id),
+    staleTime: Infinity,
+  });
+};
+
+export const getSchoolAdminEmployeesQuery = (id: string) => {
+  return queryOptions({
+    queryKey: ["schooladmins", id],
+    queryFn: () => getSchoolAdminEmployees(id),
     staleTime: Infinity,
   });
 };

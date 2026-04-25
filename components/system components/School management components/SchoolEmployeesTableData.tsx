@@ -1,11 +1,12 @@
 "use client";
-
+import { useParams } from "next/navigation";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
-
+import { useQuery } from "@tanstack/react-query";
+import { getSchoolAdminEmployeesQuery } from "@/lib/userQueryOptions";
 import { Search } from "lucide-react";
 import AddNewSchoolEmployeeModal from "./AddNewSchoolEmployeeModal";
 import { CiMenuKebab } from "react-icons/ci";
@@ -19,28 +20,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-const employees = [
-  {
-    id: "12345",
-    name: "Juan Dela Cruz",
-    position: "Teacher II",
-    points: "10,250",
-  },
-  {
-    id: "12346",
-    name: "Maria Santos",
-    position: "Principal I",
-    points: "15,600",
-  },
-  {
-    id: "12347",
-    name: "Pedro Reyes",
-    position: "Administrative Aide",
-    points: "8,900",
-  },
-];
-
 const SchoolEmployeesTableData = () => {
+  const params = useParams<{ id: string }>();
+  const schoolid = Array.isArray(params.id) ? params.id[0] : params.id;
+  const { data: schooladminsData } = useQuery(
+    getSchoolAdminEmployeesQuery(schoolid),
+  );
+
+  const schooladmins = schooladminsData?.data;
   return (
     <div className="w-full rounded border border-black/10 p-3 shadow shadow-black/30">
       {/* Header */}
@@ -65,21 +52,17 @@ const SchoolEmployeesTableData = () => {
           <TableCaption>Available school employees</TableCaption>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-30">School Id</TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead>Position</TableHead>
-              <TableHead className="text-right">Points</TableHead>
+              <TableHead>Username</TableHead>
+              <TableHead>Email</TableHead>
               <TableHead className="text-center">Action</TableHead>
             </TableRow>
           </TableHeader>
 
           <TableBody>
-            {employees.map((employee) => (
-              <TableRow key={employee.id}>
-                <TableCell className="font-medium">{employee.id}</TableCell>
-                <TableCell>{employee.name}</TableCell>
-                <TableCell>{employee.position}</TableCell>
-                <TableCell className="text-right">{employee.points}</TableCell>
+            {schooladmins?.map((employee: any) => (
+              <TableRow key={employee._id}>
+                <TableCell>{employee.username}</TableCell>
+                <TableCell>{employee.email}</TableCell>
                 <TableCell className="text-center">
                   <button className="inline-flex items-center justify-center">
                     <CiMenuKebab />
@@ -93,15 +76,14 @@ const SchoolEmployeesTableData = () => {
 
       {/* Mobile Dropdown Cards */}
       <div className="flex flex-col gap-3 md:hidden">
-        {employees.map((employee) => (
+        {schooladmins?.map((employee: any) => (
           <details
-            key={employee.id}
+            key={employee._id}
             className="rounded-lg border border-black/10 bg-white p-3 shadow-sm"
           >
             <summary className="flex cursor-pointer list-none items-center justify-between gap-3">
               <div className="min-w-0">
-                <p className="truncate font-medium">{employee.name}</p>
-                <p className="text-xs text-gray-500">{employee.position}</p>
+                <p className="truncate font-medium">{employee.username}</p>
               </div>
 
               <span className="text-xs font-medium text-[#507FFF]">
@@ -111,25 +93,15 @@ const SchoolEmployeesTableData = () => {
 
             <div className="mt-3 space-y-2 border-t pt-3 text-sm">
               <div className="flex items-center justify-between">
-                <span className="text-gray-500">School ID</span>
-                <span className="font-medium">{employee.id}</span>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <span className="text-gray-500">Name</span>
-                <span className="font-medium text-right">{employee.name}</span>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <span className="text-gray-500">Position</span>
+                <span className="text-gray-500">Username</span>
                 <span className="font-medium text-right">
-                  {employee.position}
+                  {employee.username}
                 </span>
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="text-gray-500">Points</span>
-                <span className="font-medium">{employee.points}</span>
+                <span className="text-gray-500">Email</span>
+                <span className="font-medium">{employee.email}</span>
               </div>
 
               <div className="flex justify-end pt-2">

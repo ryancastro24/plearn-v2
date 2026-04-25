@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import LearningWorldContainerCard from "./LearningWorldContainerCard";
 import MobileLearningWorldContainerCard from "./MobileLearningWorldContainerCard";
 import { getAllLearningWorlds } from "@/lib/learningworldsQueryOptions";
-const worldStatusFinished = false;
+
 const UnfinishedLearningWorld = () => {
   const { data: learningworlddata } = useQuery(getAllLearningWorlds());
   return (

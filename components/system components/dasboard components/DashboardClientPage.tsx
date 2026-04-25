@@ -13,11 +13,13 @@ import { useQueries } from "@tanstack/react-query";
 import { getUserKids } from "@/lib/userQueryOptions";
 import { getRankByLevel } from "@/lib/rankLabels";
 import { getAllKidsTasksData } from "@/lib/tasksQueryOptions";
+import { useUser } from "@/lib/userContext";
 const DashboardClientPage = () => {
+  const { user } = useUser();
+  console.log("user data", user);
   const [kidsData, allKidsTasks] = useQueries({
     queries: [getUserKids(), getAllKidsTasksData()],
   });
-
   const kids = kidsData.data;
   const tasks = allKidsTasks.data;
 

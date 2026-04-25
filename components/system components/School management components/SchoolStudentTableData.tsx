@@ -55,8 +55,6 @@ const SchoolStudentTableData = () => {
               <Search className="h-4 w-4" />
             </InputGroupAddon>
           </InputGroup>
-
-          <AddNewSchoolStudentModal />
         </div>
       </div>
 
