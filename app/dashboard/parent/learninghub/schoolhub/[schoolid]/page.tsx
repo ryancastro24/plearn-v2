@@ -1,4 +1,4 @@
-import SchoolHubClientComponent from "@/components/system components/learninghub components/SchoolHubClientComponent";
+import SchoolHubClientComponent from "@/components/system components/parent/learninghub components/SchoolHubClientComponent";
 const SchoolHub = async ({
   params,
 }: {

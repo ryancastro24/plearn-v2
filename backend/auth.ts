@@ -22,3 +22,30 @@ export const loginUser = async (username: string, password: string) => {
 
   return data;
 };
+
+export async function logoutUser() {
+  try {
+    const res = await fetch(`http://localhost:5000/api/auth/logout`, {
+      method: "POST", // or "GET" depending on your route
+      credentials: "include", // 🔥 VERY IMPORTANT (sends cookie)
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || "Logout failed");
+    }
+
+    // ✅ Optional: clear client-side state
+    // e.g. localStorage, Zustand, Redux, React Query cache
+    // localStorage.removeItem("user");
+
+    return data;
+  } catch (error: any) {
+    console.error("Logout error:", error.message);
+    throw error;
+  }
+}

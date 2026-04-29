@@ -1,4 +1,4 @@
-import KidFriendSection from "@/components/system components/kids page components/KidFriendSection";
+import KidFriendSection from "@/components/system components/parent/kids page components/KidFriendSection";
 const KidsFriends = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   return (

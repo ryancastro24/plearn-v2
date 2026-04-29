@@ -1,4 +1,4 @@
-import TopicSlideCreationClientComponent from "@/components/system components/LearningHubAdmin Components/TopicSlideCreationClientComponent";
+import TopicSlideCreationClientComponent from "@/components/system components/admin/LearningHubAdmin Components/TopicSlideCreationClientComponent";
 type TopicSlideCreationProps = Promise<{ id: string; topicid: string }>;
 const TopicSlideCreation = async ({
   params,

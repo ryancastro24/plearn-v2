@@ -1,4 +1,4 @@
-import LearninWorldHubContainer from "@/components/system components/learninghub components/LearninWorldHubContainer";
+import LearninWorldHubContainer from "@/components/system components/parent/learninghub components/LearninWorldHubContainer";
 import Image from "next/image";
 const LearningWorldHub = async ({
   params,

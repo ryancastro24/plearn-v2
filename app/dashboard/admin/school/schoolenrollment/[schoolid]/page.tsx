@@ -1,4 +1,4 @@
-import SchoolEnrollmentClientComponent from "@/components/system components/learninghub components/SchoolEnrollmentClientComponent";
+import SchoolEnrollmentClientComponent from "@/components/system components/parent/learninghub components/SchoolEnrollmentClientComponent";
 type Props = Promise<{ schoolid: string }>;
 const SchoolEnrollMent = async ({ params }: { params: Props }) => {
   const { schoolid } = await params;

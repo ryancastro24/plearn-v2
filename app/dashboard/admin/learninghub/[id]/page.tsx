@@ -1,4 +1,4 @@
-import LearningHubDetailsClientComponent from "@/components/system components/LearningHubAdmin Components/LearningHubDetailsClientComponent";
+import LearningHubDetailsClientComponent from "@/components/system components/admin/LearningHubAdmin Components/LearningHubDetailsClientComponent";
 type ParamsProps = Promise<{
   id: string;
 }>;

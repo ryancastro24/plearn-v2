@@ -1,4 +1,4 @@
-import LearningHubClientComponent from "@/components/system components/learninghub components/LearningHubClientComponent";
+import LearningHubClientComponent from "@/components/system components/parent/learninghub components/LearningHubClientComponent";
 
 const LearningHub = () => {
   return <LearningHubClientComponent />;

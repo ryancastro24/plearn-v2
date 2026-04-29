@@ -1,4 +1,4 @@
-import DesktopSideNavigation from "@/components/system components/dasboard components/DesktopSideNavigation";
+import DesktopSideNavigation from "@/components/system components/parent/dasboard components/DesktopSideNavigation";
 const ParentRootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex">
@@ -7,5 +7,4 @@ const ParentRootLayout = ({ children }: { children: React.ReactNode }) => {
     </div>
   );
 };
-
 export default ParentRootLayout;

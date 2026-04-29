@@ -49,6 +49,10 @@ export async function proxy(request: NextRequest) {
     if (userType === "user") {
       return NextResponse.redirect(new URL("/dashboard/parent", request.url));
     }
+
+    if (userType === "teacher") {
+      return NextResponse.redirect(new URL("/dashboard/teacher", request.url));
+    }
   }
 
   // 🔐 ROLE-BASED ACCESS
@@ -66,6 +70,12 @@ export async function proxy(request: NextRequest) {
       return NextResponse.redirect(
         new URL("/dashboard/schooladmin", request.url),
       );
+    }
+  }
+
+  if (userType === "teacher") {
+    if (!pathname.startsWith("/dashboard/teacher")) {
+      return NextResponse.redirect(new URL("/dashboard/teacher", request.url));
     }
   }
 

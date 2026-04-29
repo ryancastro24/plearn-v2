@@ -1,4 +1,4 @@
-import SchoolManagementDetailsContainer from "@/components/system components/School management components/SchoolManagementDetailsContainer";
+import SchoolManagementDetailsContainer from "@/components/system components/admin/School management components/SchoolManagementDetailsContainer";
 type Props = Promise<{ id: string }>;
 const SchoolManagementDetails = async ({ params }: { params: Props }) => {
   const { id } = await params;

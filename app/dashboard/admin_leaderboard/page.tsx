@@ -1,5 +1,5 @@
-import TopKidsCardContainer from "@/components/system components/admin leader board components/TopKidsCardContainer";
-import TopClanContainer from "@/components/system components/admin leader board components/TopClanContainer";
+import TopKidsCardContainer from "@/components/system components/admin/admin leader board components/TopKidsCardContainer";
+import TopClanContainer from "@/components/system components/admin/admin leader board components/TopClanContainer";
 
 const AdminLeaderBoard = () => {
   return (

@@ -1,4 +1,4 @@
-import KidsClientComponent from "@/components/system components/kids page components/KidsClientComponent";
+import KidsClientComponent from "@/components/system components/parent/kids page components/KidsClientComponent";
 const KidsPage = () => {
   return <KidsClientComponent />;
 };

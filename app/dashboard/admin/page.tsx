@@ -1,11 +1,11 @@
-import RegisteredKids from "@/components/system components/admin dashboard components/RegisteredKids";
-import MerchandiseSold from "@/components/system components/admin dashboard components/MerchandiseSold";
-import InGameSoldSkins from "@/components/system components/admin dashboard components/InGameSoldSkins";
-import TotalSales from "@/components/system components/admin dashboard components/TotalSales";
-import BarChartUpper from "@/components/system components/admin dashboard components/BarchartUpper";
-import PieChartLower from "@/components/system components/admin dashboard components/PieChartLower";
-import PieChartUpper from "@/components/system components/admin dashboard components/PieChartUpper";
-import LineGraphLower from "@/components/system components/admin dashboard components/LineGraphLower";
+import RegisteredKids from "@/components/system components/admin/admin dashboard components/RegisteredKids";
+import MerchandiseSold from "@/components/system components/admin/admin dashboard components/MerchandiseSold";
+import InGameSoldSkins from "@/components/system components/admin/admin dashboard components/InGameSoldSkins";
+import TotalSales from "@/components/system components/admin/admin dashboard components/TotalSales";
+import BarChartUpper from "@/components/system components/admin/admin dashboard components/BarchartUpper";
+import PieChartLower from "@/components/system components/admin/admin dashboard components/PieChartLower";
+import PieChartUpper from "@/components/system components/admin/admin dashboard components/PieChartUpper";
+import LineGraphLower from "@/components/system components/admin/admin dashboard components/LineGraphLower";
 
 const AdminDashboard = () => {
   return (

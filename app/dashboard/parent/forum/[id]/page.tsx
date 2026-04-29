@@ -1,4 +1,4 @@
-import ForumSingleCommentConvo from "@/components/system components/forum components/ForumSingleCommentConvo";
+import ForumSingleCommentConvo from "@/components/system components/parent/forum components/ForumSingleCommentConvo";
 const ForumSingleComment = async ({
   params,
 }: {

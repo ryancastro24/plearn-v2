@@ -1,4 +1,4 @@
-import StoreClientComponent from "@/components/system components/store components/StoreClientComponent";
+import StoreClientComponent from "@/components/system components/parent/store components copy/StoreClientComponent";
 const Storepage = () => {
   return (
     <div>

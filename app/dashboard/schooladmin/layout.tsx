@@ -1,4 +1,4 @@
-import SchoolAdminDesktopSideNavigation from "@/components/system components/school admin components/SchoolAdminDesktopNavigation";
+import SchoolAdminDesktopSideNavigation from "@/components/system components/schooladmin/school admin components/SchoolAdminDesktopNavigation";
 const SchoolAdminRootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex">

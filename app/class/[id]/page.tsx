@@ -1,5 +1,5 @@
 import Image from "next/image";
-import ClassAttendanceModal from "@/components/system components/teacher dashboard components/ClassAttendanceModal";
+import ClassAttendanceModal from "@/components/system components/teacher/teacher dashboard components/ClassAttendanceModal";
 type ClassDetailsProps = Promise<{
   id: string;
 }>;

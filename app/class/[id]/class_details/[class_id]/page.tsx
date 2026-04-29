@@ -1,4 +1,4 @@
-import ClassInnerDetailsContainer from "@/components/system components/teacher dashboard components/ClassInnerDetailsContainer";
+import ClassInnerDetailsContainer from "@/components/system components/teacher/teacher dashboard components/ClassInnerDetailsContainer";
 
 type ClassInnerDetailsProps = Promise<{
   class_id: string;

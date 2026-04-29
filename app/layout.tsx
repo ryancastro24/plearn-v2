@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
-import { FlyToCartProvider } from "@/components/system components/store components/FlyToCartProvider";
+import { FlyToCartProvider } from "@/components/system components/parent/store components copy/FlyToCartProvider";
 import TanstackQueryProvider from "@/lib/tanstackQueryProvider";
 import ToastProvider from "@/components/ToasterProvider";
 import { TooltipProvider } from "@/components/ui/tooltip";

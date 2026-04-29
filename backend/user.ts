@@ -5,7 +5,10 @@ type KidRegistrationData = Omit<
   "email" | "contactNumber" | "profileImage" | "validId"
 >;
 type UserRegistrationData = Omit<UserData, "characteristics" | "profileImage">;
-
+type TeacherRegistrationData = Omit<
+  UserData,
+  "characteristics" | "profileImage" | "username" | "password"
+>;
 export const kidRegistration = async (userData: KidRegistrationData) => {
   const response = await fetch("http://localhost:5000/api/users/registerkid", {
     method: "POST",
@@ -131,10 +134,39 @@ export const schoolAdminRegistration = async (userData: SchoolAdminData) => {
 // get school admin employees
 export const getSchoolAdminEmployees = async (id: string) => {
   const res = await fetch(
-    `http://localhost:5000/api/users/school/employees/${id}`,
+    `http://localhost:5000/api/users/admin/school/employees/${id}`,
   );
 
   if (!res.ok) throw new Error("Failed to fetch kid data");
 
   return res.json();
+};
+
+export const teacherRegistration = async (
+  userData: TeacherRegistrationData,
+) => {
+  const response = await fetch(
+    "http://localhost:5000/api/users/school/teachers",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    },
+  );
+
+  // ✅ parse response body FIRST
+  const data = await response.json();
+
+  if (!response.ok) {
+    // ✅ create custom error and attach backend data
+    const err: any = new Error(data.message || "Request failed");
+    err.missingFields = data.missingFields;
+    err.status = response.status;
+
+    throw err;
+  }
+
+  return data;
 };
