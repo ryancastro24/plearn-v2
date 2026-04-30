@@ -1,3 +1,5 @@
+import { AnyAaaaRecord } from "node:dns";
+
 export const enrollNewStudents = async (payload: any) => {
   try {
     const res = await fetch("http://localhost:5000/api/enrolledstudents", {
@@ -25,14 +27,13 @@ export const enrollNewStudents = async (payload: any) => {
 
 // get enrolled students by parent
 
-export const getEnrolledStudentByParentId = async (parentId: string) => {
+export const getEnrolledStudentByParentId = async () => {
   try {
-    if (!parentId) return []; // ✅ prevent bad request
-
     const res = await fetch(
-      `http://localhost:5000/api/enrolledstudents/parent/${parentId}`,
+      `http://localhost:5000/api/enrolledstudents/parent/data`,
       {
         cache: "no-store", // ✅ prevents 304
+        credentials: "include",
       },
     );
 
@@ -74,3 +75,29 @@ export const getStudentPerSchool = async (schoolId: string) => {
     );
   }
 };
+
+// approve enrollment
+export async function approveEnrollment(id: string) {
+  try {
+    const res = await fetch(
+      `http://localhost:5000/api/enrolledstudents/students/${id}/approve`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || "Failed to approve enrollment");
+    }
+
+    return data;
+  } catch (error: any) {
+    console.error("Approve Enrollment Error:", error.message);
+    throw error;
+  }
+}

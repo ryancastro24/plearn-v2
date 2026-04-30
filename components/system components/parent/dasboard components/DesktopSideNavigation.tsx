@@ -2,88 +2,113 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-// Icon imports
+import { useState } from "react";
+
 import { RiGamepadFill } from "react-icons/ri";
-import { FaHouse } from "react-icons/fa6";
-import { FaChildren } from "react-icons/fa6";
-import { IoStorefront } from "react-icons/io5";
-import { IoChatbubbles } from "react-icons/io5";
+import { FaHouse, FaChildren } from "react-icons/fa6";
+import { IoStorefront, IoChatbubbles } from "react-icons/io5";
+import { Menu } from "lucide-react";
+
 import LogoutAlertDialog from "../../admin/admin dashboard components/LogoutAlertDialog";
+
 const DesktopSideNavigation = () => {
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const navItems = [
+    {
+      href: "/dashboard/parent",
+      icon: FaHouse,
+      label: "Home",
+      active: pathname === "/dashboard/parent",
+    },
+    {
+      href: "/dashboard/parent/kids",
+      icon: FaChildren,
+      label: "Kids",
+      active: pathname.includes("/kids"),
+    },
+    {
+      href: "/dashboard/parent/store",
+      icon: IoStorefront,
+      label: "Store",
+      active: pathname === "/dashboard/parent/store",
+    },
+    {
+      href: "/dashboard/parent/learninghub",
+      icon: RiGamepadFill,
+      label: "Learnix",
+      active: pathname.includes("/learninghub"),
+    },
+    {
+      href: "/dashboard/parent/forum",
+      icon: IoChatbubbles,
+      label: "Forum",
+      active: pathname.includes("/forum"),
+    },
+  ];
+
   return (
-    <div className="hidden [@media(min-width:920px)]:flex sticky top-0 self-start h-screen flex-col items-center gap-5 p-2 shadow-md shadow-black/30">
-      <h1>PLEARN</h1>
-      <ul className="h-full w-auto  flex items-center flex-col gap-8">
-        <li>
-          <Link
-            className={`flex items-center cursor-pointer gap-2 ${
-              pathname === "/dashboard/parent"
-                ? " text-[#FF5B5B]"
-                : "text-[#C4C4C4]"
-            }`}
-            href="/dashboard/parent"
-          >
-            {" "}
-            <FaHouse className="text-3xl" />
-          </Link>
-        </li>
+    <div
+      className={`
+        hidden [@media(min-width:920px)]:flex
+        sticky top-0 self-start h-screen flex-col
+        transition-all duration-300
+        ${isOpen ? "w-52 items-start px-4" : "w-16 items-center px-2"}
+        gap-5 py-4 shadow-md shadow-black/30 bg-white
+      `}
+    >
+      {isOpen ? (
+        <h1
+          onClick={() => setIsOpen(!isOpen)}
+          className="text-lg cursor-pointer font-bold"
+        >
+          PLEARN
+        </h1>
+      ) : (
+        <div
+          className="w-7 h-7 flex items-center justify-center rounded-full bg-gray-400"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <h2 className="text-white font-bold">P</h2>
+        </div>
+      )}
+      {/* 🔗 Navigation */}
+      <ul className="flex flex-col gap-6 w-full">
+        {navItems.map((item, index) => {
+          const Icon = item.icon;
 
-        <li>
-          <Link
-            className={`flex items-center cursor-pointer gap-2 ${
-              pathname.includes("/dashboard/parent/kids")
-                ? " text-[#FF5B5B]"
-                : "text-[#C4C4C4]"
-            }`}
-            href="/dashboard/parent/kids"
-          >
-            {" "}
-            <FaChildren className="text-3xl" />
-          </Link>
-        </li>
+          return (
+            <li key={index}>
+              <Link
+                href={item.href}
+                className={`
+                  flex items-center gap-3 w-full
+                  ${isOpen ? "justify-start" : "justify-center"}
+                  ${item.active ? "text-[#FF5B5B]" : "text-[#C4C4C4]"}
+                  hover:text-[#FF5B5B] transition
+                `}
+              >
+                <Icon
+                  className={`
+                    transition-all
+                    ${isOpen ? "text-xl" : "text-3xl"}
+                  `}
+                />
 
-        <li>
-          <Link
-            className={`flex items-center cursor-pointer gap-2 ${
-              pathname === "/dashboard/parent/store"
-                ? " text-[#FF5B5B]"
-                : "text-[#C4C4C4]"
-            }`}
-            href="/dashboard/parent/store"
-          >
-            <IoStorefront className="text-3xl" />
-          </Link>
-        </li>
-
-        <li>
-          <Link
-            className={`flex items-center cursor-pointer gap-2 ${
-              pathname.includes("/dashboard/parent/learninghub")
-                ? " text-[#FF5B5B]"
-                : "text-[#C4C4C4]"
-            }`}
-            href="/dashboard/parent/learninghub"
-          >
-            <RiGamepadFill className="text-3xl" />
-          </Link>
-        </li>
-
-        <li>
-          <Link
-            className={`flex items-center cursor-pointer gap-2 ${
-              pathname.includes("/dashboard/parent/forum")
-                ? " text-[#FF5B5B]"
-                : "text-[#C4C4C4]"
-            }`}
-            href="/dashboard/parent/forum"
-          >
-            <IoChatbubbles className="text-3xl" />
-          </Link>
-        </li>
+                {/* 🏷 Label */}
+                {isOpen && (
+                  <span className="text-sm font-medium">{item.label}</span>
+                )}
+              </Link>
+            </li>
+          );
+        })}
       </ul>
-      <div>
-        <LogoutAlertDialog />
+
+      {/* 🚪 Logout */}
+      <div className="mt-auto w-full flex justify-center">
+        <LogoutAlertDialog isOpen={isOpen} />
       </div>
     </div>
   );

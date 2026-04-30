@@ -2,62 +2,109 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
-// Icon imports
+import { useState } from "react";
+
 import { RiDashboardFill } from "react-icons/ri";
-import { FaChildren } from "react-icons/fa6";
+import { FaChildren, FaLayerGroup } from "react-icons/fa6";
 import { HiUserGroup } from "react-icons/hi";
+import { Menu } from "lucide-react";
+
 import LogoutAlertDialog from "../../admin/admin dashboard components/LogoutAlertDialog";
+
 const SchoolAdminDesktopSideNavigation = () => {
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const navItems = [
+    {
+      href: "/dashboard/schooladmin",
+      icon: RiDashboardFill,
+      label: "Dashboard",
+      active: pathname === "/dashboard/schooladmin",
+    },
+    {
+      href: "/dashboard/schooladmin/teachers",
+      icon: HiUserGroup,
+      label: "Teachers",
+      active: pathname.includes("/teachers"),
+    },
+    {
+      href: "/dashboard/schooladmin/students",
+      icon: FaChildren,
+      label: "Students",
+      active: pathname.includes("/students"),
+    },
+    {
+      href: "/dashboard/schooladmin/sections",
+      icon: FaLayerGroup,
+      label: "Sections",
+      active: pathname.includes("/sections"),
+    },
+  ];
+
   return (
-    <div className="hidden [@media(min-width:920px)]:flex sticky top-0 self-start h-screen flex-col items-center gap-5 p-2 shadow-md shadow-black/30">
-      <h1>PLEARN</h1>
-      <ul className="h-full w-auto  flex items-center flex-col gap-8">
-        <li>
-          <Link
-            className={`flex items-center cursor-pointer gap-2 ${
-              pathname === "/dashboard/schooladmin"
-                ? " text-[#FF5B5B]"
-                : "text-[#C4C4C4]"
-            }`}
-            href="/dashboard/schooladmin"
-          >
-            {" "}
-            <RiDashboardFill className="text-3xl" />
-          </Link>
-        </li>
+    <div
+      className={`
+        hidden [@media(min-width:920px)]:flex
+        sticky top-0 self-start h-screen flex-col
+        transition-all duration-300
+        ${isOpen ? "w-52 items-start px-4" : "w-16 items-center px-2"}
+        gap-5 py-4 shadow-md shadow-black/30 bg-white
+      `}
+    >
+      {/* 🔷 Logo */}
+      {isOpen ? (
+        <h1
+          onClick={() => setIsOpen(!isOpen)}
+          className="text-lg cursor-pointer font-bold"
+        >
+          PLEARN
+        </h1>
+      ) : (
+        <div
+          className="w-7 h-7 flex items-center justify-center rounded-full bg-gray-400"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <h2 className="text-white font-bold">P</h2>
+        </div>
+      )}
 
-        <li>
-          <Link
-            className={`flex items-center cursor-pointer gap-2 ${
-              pathname.includes("/dashboard/schooladmin/teachers")
-                ? " text-[#FF5B5B]"
-                : "text-[#C4C4C4]"
-            }`}
-            href="/dashboard/schooladmin/teachers"
-          >
-            {" "}
-            <HiUserGroup className="text-3xl" />
-          </Link>
-        </li>
+      {/* 🔗 Navigation */}
+      <ul className="flex flex-col gap-6 w-full">
+        {navItems.map((item, index) => {
+          const Icon = item.icon;
 
-        <li>
-          <Link
-            className={`flex items-center cursor-pointer gap-2 ${
-              pathname.includes("/dashboard/schooladmin/students")
-                ? " text-[#FF5B5B]"
-                : "text-[#C4C4C4]"
-            }`}
-            href="/dashboard/schooladmin/students"
-          >
-            {" "}
-            <FaChildren className="text-3xl" />
-          </Link>
-        </li>
+          return (
+            <li key={index}>
+              <Link
+                href={item.href}
+                className={`
+                  flex items-center gap-3 w-full
+                  ${isOpen ? "justify-start" : "justify-center"}
+                  ${item.active ? "text-[#FF5B5B]" : "text-[#C4C4C4]"}
+                  hover:text-[#FF5B5B] transition
+                `}
+              >
+                <Icon
+                  className={`
+                    transition-all
+                    ${isOpen ? "text-xl" : "text-3xl"}
+                  `}
+                />
+
+                {/* 🔥 Label */}
+                {isOpen && (
+                  <span className="text-sm font-medium">{item.label}</span>
+                )}
+              </Link>
+            </li>
+          );
+        })}
       </ul>
-      <div>
-        <LogoutAlertDialog />
+
+      {/* 🚪 Logout */}
+      <div className="mt-auto w-full flex justify-center">
+        <LogoutAlertDialog isOpen={isOpen} />
       </div>
     </div>
   );

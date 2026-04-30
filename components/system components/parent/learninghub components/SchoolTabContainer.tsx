@@ -7,7 +7,7 @@ const SchoolTabContainer = () => {
   const { user } = useUser();
 
   const { data: enrolledSchools } = useQuery(
-    getEnrolledStudentByParentIdQuery(user?._id),
+    getEnrolledStudentByParentIdQuery(),
   );
 
   console.log("enrolled stores", enrolledSchools);

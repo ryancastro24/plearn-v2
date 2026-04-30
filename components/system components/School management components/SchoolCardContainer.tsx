@@ -7,16 +7,14 @@ type SchoolContainerProps = {
   id: string;
 };
 
-const SchoolEnrollmentCard = ({
+const SchoolCardContainer = ({
   schoolLogo,
   schoolname,
   schoolid,
   id,
 }: SchoolContainerProps) => {
   return (
-    <Link
-      href={`/dashboard/parent/learninghub/schoolhub/schoolenrollment/${id}`}
-    >
+    <Link href={`/dashboard/admin/school/${id}`}>
       <div className="  flex flex-col items-center hover:shadow-lg gap-3 p-2 rounded shadow shadow-black/30 border border-black/10">
         <Image src={schoolLogo} alt="school logo" width={200} height={200} />
         <div className="flex flex-col min-w-0">
@@ -28,4 +26,4 @@ const SchoolEnrollmentCard = ({
   );
 };
 
-export default SchoolEnrollmentCard;
+export default SchoolCardContainer;

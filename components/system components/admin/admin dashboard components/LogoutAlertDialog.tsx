@@ -17,8 +17,9 @@ import { Button } from "@/components/ui/button";
 import { LuLogOut } from "react-icons/lu";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { is } from "date-fns/locale";
 
-const LogoutAlertDialog = () => {
+const LogoutAlertDialog = ({ isOpen }: { isOpen: boolean }) => {
   const router = useRouter();
   const [isPending, setIsPending] = useState(false);
 
@@ -39,9 +40,26 @@ const LogoutAlertDialog = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button size={"icon"} variant={"destructive"}>
-          <LuLogOut className="text-2xl" />
-        </Button>
+        {isOpen ? (
+          <Button
+            variant="outline"
+            className="w-full justify-start"
+            disabled={isPending}
+            onClick={() => {}}
+          >
+            <LuLogOut className="mr-2" />
+            Logout
+          </Button>
+        ) : (
+          <Button
+            variant="outline"
+            className="w-10 h-10"
+            disabled={isPending}
+            onClick={() => {}}
+          >
+            <LuLogOut className="w-5 h-5" />
+          </Button>
+        )}
       </AlertDialogTrigger>
 
       <AlertDialogContent>

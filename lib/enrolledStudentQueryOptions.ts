@@ -4,10 +4,10 @@ import {
   getStudentPerSchool,
 } from "@/backend/enrolledStudent";
 
-export const getEnrolledStudentByParentIdQuery = (id: string) => {
+export const getEnrolledStudentByParentIdQuery = () => {
   return queryOptions({
-    queryKey: ["enrolledStudents", id],
-    queryFn: () => getEnrolledStudentByParentId(id),
+    queryKey: ["enrolledStudents"],
+    queryFn: getEnrolledStudentByParentId,
   });
 };
 

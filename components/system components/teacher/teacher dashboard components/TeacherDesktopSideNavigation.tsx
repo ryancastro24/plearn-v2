@@ -3,42 +3,33 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { RiDashboardFill } from "react-icons/ri";
+import { FaChildren } from "react-icons/fa6";
+import { MdClass } from "react-icons/md";
+import LogoutAlertDialog from "../../admin/admin dashboard components/LogoutAlertDialog";
 
-import { RiDashboardFill, RiGamepadFill } from "react-icons/ri";
-import { FaSchool } from "react-icons/fa6";
-import { IoStorefront } from "react-icons/io5";
-import { Menu } from "lucide-react";
-
-import LogoutAlertDialog from "./LogoutAlertDialog";
-
-const AdminDesktopSideNavigation = () => {
+const TeacherDesktopSideNavigation = () => {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
     {
-      href: "/dashboard/admin",
+      href: "/dashboard/teacher",
       icon: RiDashboardFill,
       label: "Dashboard",
-      active: pathname === "/dashboard/admin",
+      active: pathname === "/dashboard/teacher",
     },
     {
-      href: "/dashboard/admin/school",
-      icon: FaSchool,
-      label: "Schools",
-      active: pathname.includes("/school"),
+      href: "/dashboard/teacher/classes",
+      icon: MdClass,
+      label: "Classes",
+      active: pathname === "/dashboard/teacher/classes",
     },
     {
-      href: "/dashboard/admin/store",
-      icon: IoStorefront,
-      label: "Store",
-      active: pathname === "/dashboard/admin/store",
-    },
-    {
-      href: "/dashboard/admin/learninghub",
-      icon: RiGamepadFill,
-      label: "Learnix",
-      active: pathname.includes("/learninghub"),
+      href: "/dashboard/teacher/students",
+      icon: FaChildren,
+      label: "Students",
+      active: pathname.includes("/students"),
     },
   ];
 
@@ -52,6 +43,7 @@ const AdminDesktopSideNavigation = () => {
         gap-5 py-4 shadow-md shadow-black/30 bg-white
       `}
     >
+      {/* 🔷 Logo */}
       {isOpen ? (
         <h1
           onClick={() => setIsOpen(!isOpen)}
@@ -91,7 +83,7 @@ const AdminDesktopSideNavigation = () => {
                   `}
                 />
 
-                {/* Label */}
+                {/* 🔥 Label */}
                 {isOpen && (
                   <span className="text-sm font-medium">{item.label}</span>
                 )}
@@ -109,4 +101,4 @@ const AdminDesktopSideNavigation = () => {
   );
 };
 
-export default AdminDesktopSideNavigation;
+export default TeacherDesktopSideNavigation;
