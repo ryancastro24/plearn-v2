@@ -22,6 +22,30 @@ export const getSchoolTeachers = async () => {
   }
 };
 
+export const getSchoolTeachersForSection = async () => {
+  try {
+    const res = await fetch(
+      `http://localhost:5000/api/users/school/employees/section`,
+      {
+        credentials: "include",
+      },
+    );
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.message || "Failed to fetch teachers");
+    }
+
+    const data = await res.json();
+    return data;
+  } catch (error: any) {
+    console.error("getSchoolTeachers error:", error);
+    throw new Error(
+      error.message || "Something went wrong while fetching teachers",
+    );
+  }
+};
+
 // delete teachers
 // delete item
 export const deleteTeacher = async (id: string) => {

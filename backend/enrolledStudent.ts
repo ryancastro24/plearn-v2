@@ -1,5 +1,3 @@
-import { AnyAaaaRecord } from "node:dns";
-
 export const enrollNewStudents = async (payload: any) => {
   try {
     const res = await fetch("http://localhost:5000/api/enrolledstudents", {
@@ -101,3 +99,34 @@ export async function approveEnrollment(id: string) {
     throw error;
   }
 }
+
+export const getStudentPerSchoolYearLevel = async (gradeLevel?: string) => {
+  try {
+    const query =
+      gradeLevel && gradeLevel !== "All"
+        ? `?gradeLevel=${encodeURIComponent(gradeLevel)}`
+        : "";
+
+    const res = await fetch(
+      `http://localhost:5000/api/enrolledstudents/students/section/selection${query}`,
+      {
+        method: "GET",
+        credentials: "include", // ✅ IMPORTANT (for req.user)
+        cache: "no-store",
+      },
+    );
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.message || "Failed to fetch students");
+    }
+
+    const data = await res.json();
+    return data;
+  } catch (error: any) {
+    console.error("getStudentPerSchoolYearLevel error:", error);
+    throw new Error(
+      error.message || "Something went wrong while fetching students",
+    );
+  }
+};

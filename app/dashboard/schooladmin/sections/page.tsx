@@ -1,7 +1,6 @@
-import React from "react";
-
+import SectionClientComponent from "@/components/system components/schooladmin/school admin section components/SectionClientComponent";
 const SectionsPage = () => {
-  return <div>SectionsPage</div>;
+  return <SectionClientComponent />;
 };
 
 export default SectionsPage;
