@@ -23,13 +23,13 @@ const TeacherDesktopSideNavigation = () => {
       href: "/dashboard/teacher/classes",
       icon: MdClass,
       label: "Classes",
-      active: pathname === "/dashboard/teacher/classes",
+      active: pathname.includes("/dashboard/teacher/classes"),
     },
     {
       href: "/dashboard/teacher/students",
       icon: FaChildren,
       label: "Students",
-      active: pathname.includes("/students"),
+      active: pathname.includes("/dashboard/teacher/students"),
     },
   ];
 

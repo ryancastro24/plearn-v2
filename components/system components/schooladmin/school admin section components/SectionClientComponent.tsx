@@ -3,12 +3,15 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getSectionsBySchoolQuery } from "@/lib/sectionsQueryOptions";
+import { TbEdit } from "react-icons/tb";
+import { Button } from "@/components/ui/button";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
 import AddNewSectionModal from "./AddNewSectionModal";
+import InsertSectionStudent from "./InsertSectionStudent";
 import { Search } from "lucide-react";
 
 const SectionClientComponent = () => {
@@ -55,10 +58,10 @@ const SectionClientComponent = () => {
           filteredSections.map((sec: any) => (
             <div
               key={sec._id}
-              className="border rounded-xl p-4 bg-white shadow-sm space-y-2"
+              className="border rounded-xl p-4 bg-white shadow-sm space-y-2 relative"
             >
               {/* TITLE */}
-              <h3 className="font-semibold text-base">{sec.title}</h3>
+              <h3 className="font-semibold text-base">Title: {sec.title}</h3>
 
               {/* META */}
               <div className="text-sm text-gray-600">
@@ -83,6 +86,14 @@ const SectionClientComponent = () => {
               {/* STUDENT COUNT */}
               <div className="text-xs text-gray-500">
                 Students: {sec.students?.length || 0}
+              </div>
+
+              <div className="absolute top-2 right-2 flex items-center gap-2">
+                <Button size={"icon"} variant={"outline"}>
+                  <TbEdit />
+                </Button>
+
+                <InsertSectionStudent grade={sec.grade} sectionId={sec._id} />
               </div>
             </div>
           ))

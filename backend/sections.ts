@@ -80,3 +80,57 @@ export async function fetchTeacherSections() {
     throw error;
   }
 }
+export async function updateSectionStudents(sectionId: string, students: any) {
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/sections/${sectionId}/students`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        credentials: "include",
+
+        body: JSON.stringify({
+          students,
+        }),
+      },
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to update students");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("updateSectionStudents error:", error);
+
+    throw error;
+  }
+}
+
+//
+export async function fetchSectionsDetails(id: string) {
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/sections/sections/details/${id}`,
+      {
+        credentials: "include",
+      },
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to fetch sections");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("fetchTeacherSections error:", error);
+    throw error;
+  }
+}

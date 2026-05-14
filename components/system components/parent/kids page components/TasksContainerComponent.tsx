@@ -145,6 +145,7 @@ const TasksContainerComponent = ({ tasks }: any) => {
             }
             task={task.taskDescription}
             kidId={task._id}
+            category={task.category}
           />
         ))
       ) : (

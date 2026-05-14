@@ -49,13 +49,13 @@ const SchoolEnrollmentClientComponent = ({ id }: any) => {
   }, []);
 
   const gradeLevels = [
-    "Kindergarten",
-    "Grade 1",
-    "Grade 2",
-    "Grade 3",
-    "Grade 4",
-    "Grade 5",
-    "Grade 6",
+    "pre-school",
+    "grade1",
+    "grade2",
+    "grade3",
+    "grade4",
+    "grade5",
+    "grade6",
   ];
 
   // ✅ MUTATION (mock submit)

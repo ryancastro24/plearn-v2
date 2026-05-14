@@ -7,17 +7,20 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { markTaskAsDone, markTaskAsFailed } from "@/backend/tasks";
 import { Spinner } from "@/components/ui/spinner";
 import { capitalize } from "./KidTasksClientComponent";
+import { BsEyeFill } from "react-icons/bs";
 import { toast } from "react-toastify";
 const TaskContainer = ({
   profileImage,
   name,
   task,
   kidId,
+  category,
 }: {
   profileImage: string;
   name: string;
   task: string;
   kidId: string;
+  category: string;
 }) => {
   const queryClient = useQueryClient();
 
@@ -92,22 +95,30 @@ const TaskContainer = ({
       </div>
 
       <div className="flex justify-center gap-2">
-        <Button
-          disabled={taskFailedPending}
-          onClick={(e) => handleTaskFailed(e, kidId)}
-          className="bg-red-500"
-          size={"icon"}
-        >
-          {taskFailedPending ? <Spinner /> : <FaXmark />}
-        </Button>
-        <Button
-          disabled={taskDonePending}
-          onClick={(e) => handleTaskDone(e, kidId)}
-          className="bg-green-500"
-          size={"icon"}
-        >
-          {taskDonePending ? <Spinner /> : <FaThumbsUp />}
-        </Button>
+        {category === "academics" ? (
+          <Button size={"icon"} variant={"outline"}>
+            <BsEyeFill />
+          </Button>
+        ) : (
+          <>
+            <Button
+              disabled={taskFailedPending}
+              onClick={(e) => handleTaskFailed(e, kidId)}
+              className="bg-red-500"
+              size={"icon"}
+            >
+              {taskFailedPending ? <Spinner /> : <FaXmark />}
+            </Button>
+            <Button
+              disabled={taskDonePending}
+              onClick={(e) => handleTaskDone(e, kidId)}
+              className="bg-green-500"
+              size={"icon"}
+            >
+              {taskDonePending ? <Spinner /> : <FaThumbsUp />}
+            </Button>
+          </>
+        )}
 
         <Button variant="secondary" className=" border-0" size={"icon"}>
           <CiMenuKebab className="text-black text-xl" />
