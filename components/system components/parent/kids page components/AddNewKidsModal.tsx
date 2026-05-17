@@ -141,11 +141,8 @@ const AddNewKidsModal = () => {
     createUserMutation({
       ...newStudent,
       characteristics: selectedCharacteristics,
-      username: `${newStudent.firstname.toLowerCase()}.${newStudent.lastname.toLowerCase()}${Math.floor(100 + Math.random() * 900)}`,
-      password:
-        newStudent.birthdate.split("-").reverse().join("") +
-        "_" +
-        newStudent.firstname.toLowerCase(),
+      username: `${newStudent.firstname.toLowerCase()}.${newStudent.lastname.toLowerCase()}`,
+      password: "user1",
       userType: "student",
       parentId: userLoginData?._id || "",
     });

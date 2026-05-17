@@ -40,6 +40,7 @@ const AddSectionActivitySlide = ({ activityId }: any) => {
     spelling_word: "",
     spelling_mode: "",
     slideDuration: "",
+    points: 0,
   };
 
   const [activeTab, setActiveTab] = useState("explanation");
@@ -58,6 +59,9 @@ const AddSectionActivitySlide = ({ activityId }: any) => {
     setNewSlide({
       ...initialState,
       category: value,
+
+      // ✅ Auto set points for explanation
+      points: value === "explanation" ? 10 : initialState.points,
     });
   };
 
@@ -85,6 +89,7 @@ const AddSectionActivitySlide = ({ activityId }: any) => {
       category: newSlide.category,
       slideDuration: newSlide.slideDuration,
       activityId: activityId,
+      points: newSlide.points,
     };
 
     if (activeTab === "explanation") {
@@ -297,6 +302,22 @@ const AddSectionActivitySlide = ({ activityId }: any) => {
                     }
                   />
                   Minutes
+                </div>
+              </div>
+
+              <div>
+                <Label>Points</Label>
+                <div className="flex gap-2 items-center">
+                  <Input
+                    type="number"
+                    className="w-20"
+                    value={
+                      newSlide.category === "explanation" ? 10 : newSlide.points
+                    }
+                    disabled={newSlide.category === "explanation"}
+                    onChange={(e) => handleChange("points", e.target.value)}
+                  />
+                  <h2 className="text-sm">Points</h2>
                 </div>
               </div>
 

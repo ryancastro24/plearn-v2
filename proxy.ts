@@ -45,6 +45,9 @@ export async function proxy(request: NextRequest) {
         new URL("/dashboard/schooladmin", request.url),
       );
     }
+    if (userType === "student") {
+      return NextResponse.redirect(new URL("/dashboard/student", request.url));
+    }
 
     if (userType === "user") {
       return NextResponse.redirect(new URL("/dashboard/parent", request.url));
@@ -76,6 +79,12 @@ export async function proxy(request: NextRequest) {
   if (userType === "teacher") {
     if (!pathname.startsWith("/dashboard/teacher")) {
       return NextResponse.redirect(new URL("/dashboard/teacher", request.url));
+    }
+  }
+
+  if (userType === "student") {
+    if (!pathname.startsWith("/dashboard/student")) {
+      return NextResponse.redirect(new URL("/dashboard/student", request.url));
     }
   }
 

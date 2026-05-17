@@ -57,6 +57,7 @@ export const getStudentPerSchool = async (schoolId: string) => {
       `http://localhost:5000/api/enrolledstudents/school/${schoolId}`,
       {
         cache: "no-store", // ✅ prevents 304
+        credentials: "include",
       },
     );
 
